@@ -7,11 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		30881BD11A84687700162A1C /* VHID.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30881BCF1A84687700162A1C /* VHID.framework */; };
-		30881BD71A86219C00162A1C /* WirtualJoy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30881BD01A84687700162A1C /* WirtualJoy.framework */; };
-		30881BDF1A86558A00162A1C /* VHID.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 30881BCF1A84687700162A1C /* VHID.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		30881BE11A86558A00162A1C /* WirtualJoy.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 30881BD01A84687700162A1C /* WirtualJoy.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E41D25B41C8CBA560084B6B9 /* libusb-1.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E41D25B31C8CBA560084B6B9 /* libusb-1.0.a */; settings = {ASSET_TAGS = (); }; };
+		E41D25D81C8CC4560084B6B9 /* VHID.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E41D25CD1C8CBEE00084B6B9 /* VHID.framework */; };
+		E41D25D91C8CC4560084B6B9 /* VHID.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E41D25CD1C8CBEE00084B6B9 /* VHID.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		E41D25DA1C8CC4560084B6B9 /* WirtualJoy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E41D25CE1C8CBEE10084B6B9 /* WirtualJoy.framework */; };
+		E41D25DB1C8CC4560084B6B9 /* WirtualJoy.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E41D25CE1C8CBEE10084B6B9 /* WirtualJoy.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E428ABCD1C78F8CD00BFC732 /* AdapterHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = E428ABCC1C78F8CD00BFC732 /* AdapterHandler.m */; settings = {ASSET_TAGS = (); }; };
 		E48B7BAE1C7A05FB00A59E49 /* switchIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = E48B7BAD1C7A05FB00A59E49 /* switchIcon.png */; settings = {ASSET_TAGS = (); }; };
 		E48B7BB21C7A075200A59E49 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E4DFE1231C78E8E100C45228 /* AppDelegate.m */; };
@@ -19,12 +19,8 @@
 		E4DFE12A1C78E8E100C45228 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E4DFE1291C78E8E100C45228 /* ViewController.m */; };
 		E4DFE12C1C78E8E100C45228 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E4DFE12B1C78E8E100C45228 /* Assets.xcassets */; };
 		E4DFE12F1C78E8E100C45228 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E4DFE12D1C78E8E100C45228 /* Main.storyboard */; };
-		E4DFE1391C78EA0400C45228 /* VHID.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30881BCF1A84687700162A1C /* VHID.framework */; };
-		E4DFE13A1C78EA0400C45228 /* WirtualJoy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30881BD01A84687700162A1C /* WirtualJoy.framework */; };
 		E4DFE14B1C78EEF400C45228 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E4DFE12B1C78E8E100C45228 /* Assets.xcassets */; };
 		E4DFE14C1C78EEF400C45228 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E4DFE12D1C78E8E100C45228 /* Main.storyboard */; };
-		E4DFE1541C78F20900C45228 /* VHID.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 30881BCF1A84687700162A1C /* VHID.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		E4DFE1561C78F20900C45228 /* WirtualJoy.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 30881BD01A84687700162A1C /* WirtualJoy.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		E4DFE16B1C78F68400C45228 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E4DFE1261C78E8E100C45228 /* main.m */; };
 /* End PBXBuildFile section */
 
@@ -35,30 +31,29 @@
 			dstPath = ../frameworks;
 			dstSubfolderSpec = 10;
 			files = (
-				30881BDF1A86558A00162A1C /* VHID.framework in CopyFiles */,
-				30881BE11A86558A00162A1C /* WirtualJoy.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		E4DFE13C1C78EC5D00C45228 /* CopyFiles */ = {
+		E41D25DC1C8CC4560084B6B9 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
-			dstPath = ../frameworks;
+			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				E4DFE1541C78F20900C45228 /* VHID.framework in CopyFiles */,
-				E4DFE1561C78F20900C45228 /* WirtualJoy.framework in CopyFiles */,
+				E41D25DB1C8CC4560084B6B9 /* WirtualJoy.framework in Embed Frameworks */,
+				E41D25D91C8CC4560084B6B9 /* VHID.framework in Embed Frameworks */,
 			);
+			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		30881BCF1A84687700162A1C /* VHID.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VHID.framework; path = ../VHID.framework; sourceTree = "<group>"; };
-		30881BD01A84687700162A1C /* WirtualJoy.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WirtualJoy.framework; path = ../WirtualJoy.framework; sourceTree = "<group>"; };
 		30B5281B1A7A564400F565FA /* wiiu-gcc-adapter-bin */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "wiiu-gcc-adapter-bin"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E41D25B21C8CBA560084B6B9 /* libusb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libusb.h; sourceTree = "<group>"; };
 		E41D25B31C8CBA560084B6B9 /* libusb-1.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libusb-1.0.a"; sourceTree = "<group>"; };
+		E41D25CD1C8CBEE00084B6B9 /* VHID.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = VHID.framework; sourceTree = "<group>"; };
+		E41D25CE1C8CBEE10084B6B9 /* WirtualJoy.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = WirtualJoy.framework; sourceTree = "<group>"; };
 		E428ABCC1C78F8CD00BFC732 /* AdapterHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AdapterHandler.m; sourceTree = "<group>"; };
 		E428ABD11C78FAB100BFC732 /* AdapterHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdapterHandler.h; sourceTree = "<group>"; };
 		E48B7BAD1C7A05FB00A59E49 /* switchIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = switchIcon.png; sourceTree = "<group>"; };
@@ -80,8 +75,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				30881BD11A84687700162A1C /* VHID.framework in Frameworks */,
-				30881BD71A86219C00162A1C /* WirtualJoy.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -90,8 +83,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				E41D25B41C8CBA560084B6B9 /* libusb-1.0.a in Frameworks */,
-				E4DFE1391C78EA0400C45228 /* VHID.framework in Frameworks */,
-				E4DFE13A1C78EA0400C45228 /* WirtualJoy.framework in Frameworks */,
+				E41D25D81C8CC4560084B6B9 /* VHID.framework in Frameworks */,
+				E41D25DA1C8CC4560084B6B9 /* WirtualJoy.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -101,7 +94,8 @@
 		30B528121A7A564400F565FA = {
 			isa = PBXGroup;
 			children = (
-				30B5281D1A7A564400F565FA /* wiiu-gcc-adapter */,
+				E41D25CD1C8CBEE00084B6B9 /* VHID.framework */,
+				E41D25CE1C8CBEE10084B6B9 /* WirtualJoy.framework */,
 				E4DFE1211C78E8E000C45228 /* WiiU GC Adapter */,
 				30B5281C1A7A564400F565FA /* Products */,
 			);
@@ -114,15 +108,6 @@
 				E4DFE1201C78E8E000C45228 /* WiiU GC Adapter.app */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		30B5281D1A7A564400F565FA /* wiiu-gcc-adapter */ = {
-			isa = PBXGroup;
-			children = (
-				30881BCF1A84687700162A1C /* VHID.framework */,
-				30881BD01A84687700162A1C /* WirtualJoy.framework */,
-			);
-			path = "wiiu-gcc-adapter";
 			sourceTree = "<group>";
 		};
 		E4DFE1211C78E8E000C45228 /* WiiU GC Adapter */ = {
@@ -198,8 +183,8 @@
 			buildPhases = (
 				E4DFE11C1C78E8E000C45228 /* Sources */,
 				E4DFE11D1C78E8E000C45228 /* Frameworks */,
-				E4DFE13C1C78EC5D00C45228 /* CopyFiles */,
 				E4DFE11E1C78E8E000C45228 /* Resources */,
+				E41D25DC1C8CC4560084B6B9 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -434,6 +419,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -443,14 +429,9 @@
 				INFOPLIST_FILE = "WiiU GC Adapter/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = (
+					"$(LOCAL_APPS_DIR)",
 					"$(inherited)",
-					"$(PROJECT_DIR)/wiiu-gcc-adapter",
-					"$(PROJECT_DIR)/WiiU",
-					GC,
-					Adapter,
-					"$(PROJECT_DIR)/WiiU",
-					GC,
-					Adapter,
+					"$(PROJECT_DIR)/WiiU\\ GC\\ Adapter",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.WiiU-GC-Adapter";
@@ -473,16 +454,12 @@
 				INFOPLIST_FILE = "WiiU GC Adapter/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = (
+					"$(LOCAL_APPS_DIR)",
 					"$(inherited)",
-					"$(PROJECT_DIR)/wiiu-gcc-adapter",
-					"$(PROJECT_DIR)/WiiU",
-					GC,
-					Adapter,
-					"$(PROJECT_DIR)/WiiU",
-					GC,
-					Adapter,
+					"$(PROJECT_DIR)/WiiU\\ GC\\ Adapter",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.WiiU-GC-Adapter";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
