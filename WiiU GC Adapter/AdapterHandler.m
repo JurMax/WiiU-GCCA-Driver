@@ -69,11 +69,11 @@ void cbin(struct libusb_transfer* transfer) {
             
             
             
-            stickXRaw = p[7]; // dit is de l-analog ding: gaat van 25 tot 242
+            stickXRaw = 0;//p[7]; // dit is de l-analog ding: gaat van 25 tot 242
             stickYRaw = p[5];
             stickX = (float)stickXRaw / (128.0) - 1.0;
             stickY = -(float)stickYRaw / (128.0) + 1.0;
-            point.x = stickX;
+            point.x = 0;
             point.y = stickY;
             [VHID setPointer:1 position:point];
             
@@ -81,7 +81,7 @@ void cbin(struct libusb_transfer* transfer) {
             stickYRaw = 0;//p[8];  // dit is de r-analog ding
             stickX = -(float)stickXRaw / (128.0) + 1.0;
             stickY = -(float)stickYRaw / (128.0) + 1.0;
-            point.x = stickX;
+            point.x = 0;
             point.y = stickY;
             [VHID setPointer:2 position:point];
         }
