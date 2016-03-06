@@ -1,0 +1,544 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		30881BD11A84687700162A1C /* VHID.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30881BCF1A84687700162A1C /* VHID.framework */; };
+		30881BD51A8620D800162A1C /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30881BD41A8620D800162A1C /* IOKit.framework */; };
+		30881BD71A86219C00162A1C /* WirtualJoy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30881BD01A84687700162A1C /* WirtualJoy.framework */; };
+		30881BDE1A86558A00162A1C /* wjoy.kext in CopyFiles */ = {isa = PBXBuildFile; fileRef = 30881BD61A86210B00162A1C /* wjoy.kext */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		30881BDF1A86558A00162A1C /* VHID.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 30881BCF1A84687700162A1C /* VHID.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		30881BE01A86558A00162A1C /* IOKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 30881BD41A8620D800162A1C /* IOKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		30881BE11A86558A00162A1C /* WirtualJoy.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 30881BD01A84687700162A1C /* WirtualJoy.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		3098CB5F1A8460C800DF7162 /* libusb-1.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3098CB5E1A8460C800DF7162 /* libusb-1.0.a */; };
+		E428ABCD1C78F8CD00BFC732 /* AdapterHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = E428ABCC1C78F8CD00BFC732 /* AdapterHandler.m */; settings = {ASSET_TAGS = (); }; };
+		E48B7BAE1C7A05FB00A59E49 /* switchIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = E48B7BAD1C7A05FB00A59E49 /* switchIcon.png */; settings = {ASSET_TAGS = (); }; };
+		E48B7BB21C7A075200A59E49 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E4DFE1231C78E8E100C45228 /* AppDelegate.m */; };
+		E48B7BB41C7A0B3700A59E49 /* Functions.m in Sources */ = {isa = PBXBuildFile; fileRef = E48B7BB31C7A0B3700A59E49 /* Functions.m */; settings = {ASSET_TAGS = (); }; };
+		E4DFE12A1C78E8E100C45228 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E4DFE1291C78E8E100C45228 /* ViewController.m */; };
+		E4DFE12C1C78E8E100C45228 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E4DFE12B1C78E8E100C45228 /* Assets.xcassets */; };
+		E4DFE12F1C78E8E100C45228 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E4DFE12D1C78E8E100C45228 /* Main.storyboard */; };
+		E4DFE1381C78EA0400C45228 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30881BD41A8620D800162A1C /* IOKit.framework */; };
+		E4DFE1391C78EA0400C45228 /* VHID.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30881BCF1A84687700162A1C /* VHID.framework */; };
+		E4DFE13A1C78EA0400C45228 /* WirtualJoy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30881BD01A84687700162A1C /* WirtualJoy.framework */; };
+		E4DFE13B1C78EA1A00C45228 /* libusb-1.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3098CB5E1A8460C800DF7162 /* libusb-1.0.a */; };
+		E4DFE14B1C78EEF400C45228 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E4DFE12B1C78E8E100C45228 /* Assets.xcassets */; };
+		E4DFE14C1C78EEF400C45228 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E4DFE12D1C78E8E100C45228 /* Main.storyboard */; };
+		E4DFE1521C78F20900C45228 /* libusb-1.0.a in CopyFiles */ = {isa = PBXBuildFile; fileRef = 3098CB5E1A8460C800DF7162 /* libusb-1.0.a */; };
+		E4DFE1531C78F20900C45228 /* wjoy.kext in CopyFiles */ = {isa = PBXBuildFile; fileRef = 30881BD61A86210B00162A1C /* wjoy.kext */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		E4DFE1541C78F20900C45228 /* VHID.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 30881BCF1A84687700162A1C /* VHID.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		E4DFE1551C78F20900C45228 /* IOKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 30881BD41A8620D800162A1C /* IOKit.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		E4DFE1561C78F20900C45228 /* WirtualJoy.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 30881BD01A84687700162A1C /* WirtualJoy.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		E4DFE15B1C78F35E00C45228 /* AdapterMain.m in Sources */ = {isa = PBXBuildFile; fileRef = E4DFE15A1C78F35E00C45228 /* AdapterMain.m */; settings = {ASSET_TAGS = (); }; };
+		E4DFE16B1C78F68400C45228 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E4DFE1261C78E8E100C45228 /* main.m */; };
+		FA9367C31AA6DF3D004F4AD0 /* libusb-1.0.a in CopyFiles */ = {isa = PBXBuildFile; fileRef = 3098CB5E1A8460C800DF7162 /* libusb-1.0.a */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		30B528191A7A564400F565FA /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 12;
+			dstPath = ../frameworks;
+			dstSubfolderSpec = 10;
+			files = (
+				FA9367C31AA6DF3D004F4AD0 /* libusb-1.0.a in CopyFiles */,
+				30881BDE1A86558A00162A1C /* wjoy.kext in CopyFiles */,
+				30881BDF1A86558A00162A1C /* VHID.framework in CopyFiles */,
+				30881BE01A86558A00162A1C /* IOKit.framework in CopyFiles */,
+				30881BE11A86558A00162A1C /* WirtualJoy.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E4DFE13C1C78EC5D00C45228 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = ../frameworks;
+			dstSubfolderSpec = 10;
+			files = (
+				E4DFE1521C78F20900C45228 /* libusb-1.0.a in CopyFiles */,
+				E4DFE1531C78F20900C45228 /* wjoy.kext in CopyFiles */,
+				E4DFE1541C78F20900C45228 /* VHID.framework in CopyFiles */,
+				E4DFE1551C78F20900C45228 /* IOKit.framework in CopyFiles */,
+				E4DFE1561C78F20900C45228 /* WirtualJoy.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		30881BCF1A84687700162A1C /* VHID.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VHID.framework; path = ../VHID.framework; sourceTree = "<group>"; };
+		30881BD01A84687700162A1C /* WirtualJoy.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WirtualJoy.framework; path = ../WirtualJoy.framework; sourceTree = "<group>"; };
+		30881BD41A8620D800162A1C /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = ../IOKit.framework; sourceTree = "<group>"; };
+		30881BD61A86210B00162A1C /* wjoy.kext */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.kernel-extension"; name = wjoy.kext; path = ../wjoy.kext; sourceTree = "<group>"; };
+		3098CB5E1A8460C800DF7162 /* libusb-1.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libusb-1.0.a"; sourceTree = "<group>"; };
+		3098CB601A8460D200DF7162 /* libusb.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = libusb.h; sourceTree = "<group>"; };
+		30B5281B1A7A564400F565FA /* wiiu-gcc-adapter-bin */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "wiiu-gcc-adapter-bin"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E428ABCC1C78F8CD00BFC732 /* AdapterHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AdapterHandler.m; sourceTree = "<group>"; };
+		E428ABD11C78FAB100BFC732 /* AdapterHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdapterHandler.h; sourceTree = "<group>"; };
+		E48B7BAD1C7A05FB00A59E49 /* switchIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = switchIcon.png; sourceTree = "<group>"; };
+		E48B7BB31C7A0B3700A59E49 /* Functions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Functions.m; sourceTree = "<group>"; };
+		E48B7BB51C7A0B4800A59E49 /* Functions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Functions.h; sourceTree = "<group>"; };
+		E4DFE1201C78E8E000C45228 /* WiiU GC Adapter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "WiiU GC Adapter.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E4DFE1221C78E8E000C45228 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		E4DFE1231C78E8E100C45228 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		E4DFE1261C78E8E100C45228 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		E4DFE1281C78E8E100C45228 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		E4DFE1291C78E8E100C45228 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		E4DFE12B1C78E8E100C45228 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		E4DFE12E1C78E8E100C45228 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		E4DFE1301C78E8E100C45228 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E4DFE15A1C78F35E00C45228 /* AdapterMain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AdapterMain.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		30B528181A7A564400F565FA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3098CB5F1A8460C800DF7162 /* libusb-1.0.a in Frameworks */,
+				30881BD11A84687700162A1C /* VHID.framework in Frameworks */,
+				30881BD71A86219C00162A1C /* WirtualJoy.framework in Frameworks */,
+				30881BD51A8620D800162A1C /* IOKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E4DFE11D1C78E8E000C45228 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E4DFE13B1C78EA1A00C45228 /* libusb-1.0.a in Frameworks */,
+				E4DFE1381C78EA0400C45228 /* IOKit.framework in Frameworks */,
+				E4DFE1391C78EA0400C45228 /* VHID.framework in Frameworks */,
+				E4DFE13A1C78EA0400C45228 /* WirtualJoy.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		30B528121A7A564400F565FA = {
+			isa = PBXGroup;
+			children = (
+				30B5281D1A7A564400F565FA /* wiiu-gcc-adapter */,
+				E4DFE1211C78E8E000C45228 /* WiiU GC Adapter */,
+				30B5281C1A7A564400F565FA /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		30B5281C1A7A564400F565FA /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				30B5281B1A7A564400F565FA /* wiiu-gcc-adapter-bin */,
+				E4DFE1201C78E8E000C45228 /* WiiU GC Adapter.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		30B5281D1A7A564400F565FA /* wiiu-gcc-adapter */ = {
+			isa = PBXGroup;
+			children = (
+				3098CB601A8460D200DF7162 /* libusb.h */,
+				3098CB5E1A8460C800DF7162 /* libusb-1.0.a */,
+				E4DFE15A1C78F35E00C45228 /* AdapterMain.m */,
+				30881BD61A86210B00162A1C /* wjoy.kext */,
+				30881BCF1A84687700162A1C /* VHID.framework */,
+				30881BD41A8620D800162A1C /* IOKit.framework */,
+				30881BD01A84687700162A1C /* WirtualJoy.framework */,
+			);
+			path = "wiiu-gcc-adapter";
+			sourceTree = "<group>";
+		};
+		E4DFE1211C78E8E000C45228 /* WiiU GC Adapter */ = {
+			isa = PBXGroup;
+			children = (
+				E4DFE1641C78F53200C45228 /* Window Files */,
+				E4DFE1631C78F52000C45228 /* Adapter Files */,
+				E4DFE1251C78E8E100C45228 /* Supporting Files */,
+			);
+			path = "WiiU GC Adapter";
+			sourceTree = "<group>";
+		};
+		E4DFE1251C78E8E100C45228 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				E4DFE1261C78E8E100C45228 /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		E4DFE1631C78F52000C45228 /* Adapter Files */ = {
+			isa = PBXGroup;
+			children = (
+				E428ABD11C78FAB100BFC732 /* AdapterHandler.h */,
+				E428ABCC1C78F8CD00BFC732 /* AdapterHandler.m */,
+				E48B7BB51C7A0B4800A59E49 /* Functions.h */,
+				E48B7BB31C7A0B3700A59E49 /* Functions.m */,
+			);
+			name = "Adapter Files";
+			sourceTree = "<group>";
+		};
+		E4DFE1641C78F53200C45228 /* Window Files */ = {
+			isa = PBXGroup;
+			children = (
+				E4DFE12B1C78E8E100C45228 /* Assets.xcassets */,
+				E48B7BAD1C7A05FB00A59E49 /* switchIcon.png */,
+				E4DFE1301C78E8E100C45228 /* Info.plist */,
+				E4DFE12D1C78E8E100C45228 /* Main.storyboard */,
+				E4DFE1221C78E8E000C45228 /* AppDelegate.h */,
+				E4DFE1231C78E8E100C45228 /* AppDelegate.m */,
+				E4DFE1281C78E8E100C45228 /* ViewController.h */,
+				E4DFE1291C78E8E100C45228 /* ViewController.m */,
+			);
+			name = "Window Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		30B5281A1A7A564400F565FA /* wiiu-gcc-adapter-bin */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 30B528221A7A564400F565FA /* Build configuration list for PBXNativeTarget "wiiu-gcc-adapter-bin" */;
+			buildPhases = (
+				30B528171A7A564400F565FA /* Sources */,
+				30B528181A7A564400F565FA /* Frameworks */,
+				30B528191A7A564400F565FA /* CopyFiles */,
+				E4DFE14A1C78EEEC00C45228 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "wiiu-gcc-adapter-bin";
+			productName = "wiiu-gcc-adapter";
+			productReference = 30B5281B1A7A564400F565FA /* wiiu-gcc-adapter-bin */;
+			productType = "com.apple.product-type.tool";
+		};
+		E4DFE11F1C78E8E000C45228 /* WiiU GC Adapter */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E4DFE1311C78E8E100C45228 /* Build configuration list for PBXNativeTarget "WiiU GC Adapter" */;
+			buildPhases = (
+				E4DFE11C1C78E8E000C45228 /* Sources */,
+				E4DFE11D1C78E8E000C45228 /* Frameworks */,
+				E4DFE13C1C78EC5D00C45228 /* CopyFiles */,
+				E4DFE11E1C78E8E000C45228 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "WiiU GC Adapter";
+			productName = "WiiU GC Adapter";
+			productReference = E4DFE1201C78E8E000C45228 /* WiiU GC Adapter.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		30B528131A7A564400F565FA /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0700;
+				ORGANIZATIONNAME = "Mitch Dzugan";
+				TargetAttributes = {
+					30B5281A1A7A564400F565FA = {
+						CreatedOnToolsVersion = 6.1.1;
+					};
+					E4DFE11F1C78E8E000C45228 = {
+						CreatedOnToolsVersion = 7.0.1;
+					};
+				};
+			};
+			buildConfigurationList = 30B528161A7A564400F565FA /* Build configuration list for PBXProject "wiiu-gcc-adapter-bin" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 30B528121A7A564400F565FA;
+			productRefGroup = 30B5281C1A7A564400F565FA /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				30B5281A1A7A564400F565FA /* wiiu-gcc-adapter-bin */,
+				E4DFE11F1C78E8E000C45228 /* WiiU GC Adapter */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		E4DFE11E1C78E8E000C45228 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E4DFE12C1C78E8E100C45228 /* Assets.xcassets in Resources */,
+				E48B7BAE1C7A05FB00A59E49 /* switchIcon.png in Resources */,
+				E4DFE12F1C78E8E100C45228 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E4DFE14A1C78EEEC00C45228 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E4DFE14B1C78EEF400C45228 /* Assets.xcassets in Resources */,
+				E4DFE14C1C78EEF400C45228 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		30B528171A7A564400F565FA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E4DFE15B1C78F35E00C45228 /* AdapterMain.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E4DFE11C1C78E8E000C45228 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E48B7BB21C7A075200A59E49 /* AppDelegate.m in Sources */,
+				E4DFE12A1C78E8E100C45228 /* ViewController.m in Sources */,
+				E428ABCD1C78F8CD00BFC732 /* AdapterHandler.m in Sources */,
+				E4DFE16B1C78F68400C45228 /* main.m in Sources */,
+				E48B7BB41C7A0B3700A59E49 /* Functions.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		E4DFE12D1C78E8E100C45228 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E4DFE12E1C78E8E100C45228 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		30B528201A7A564400F565FA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		30B528211A7A564400F565FA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		30B528231A7A564400F565FA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
+				INFOPLIST_FILE = "wiiu-gcc-adapter/Info.plist";
+				INSTALL_PATH = "$(LOCAL_APPS_DIR)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/wiiu-gcc-adapter",
+				);
+				"LIBRARY_SEARCH_PATHS[arch=*]" = (
+					/usr/local/lib,
+					"$(inherited)",
+					"$(PROJECT_DIR)/wiiu-gcc-adapter",
+				);
+				PRODUCT_NAME = "wiiu-gcc-adapter-bin";
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		30B528241A7A564400F565FA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
+				INFOPLIST_FILE = "wiiu-gcc-adapter/Info.plist";
+				INSTALL_PATH = "$(LOCAL_APPS_DIR)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/wiiu-gcc-adapter",
+				);
+				"LIBRARY_SEARCH_PATHS[arch=*]" = (
+					/usr/local/lib,
+					"$(inherited)",
+					"$(PROJECT_DIR)/wiiu-gcc-adapter",
+				);
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "wiiu-gcc-adapter-bin";
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		E4DFE1321C78E8E100C45228 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "WiiU GC Adapter/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/wiiu-gcc-adapter",
+					"$(PROJECT_DIR)/WiiU",
+					GC,
+					Adapter,
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.WiiU-GC-Adapter";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		E4DFE1331C78E8E100C45228 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "WiiU GC Adapter/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/wiiu-gcc-adapter",
+					"$(PROJECT_DIR)/WiiU",
+					GC,
+					Adapter,
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.WiiU-GC-Adapter";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		30B528161A7A564400F565FA /* Build configuration list for PBXProject "wiiu-gcc-adapter-bin" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				30B528201A7A564400F565FA /* Debug */,
+				30B528211A7A564400F565FA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		30B528221A7A564400F565FA /* Build configuration list for PBXNativeTarget "wiiu-gcc-adapter-bin" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				30B528231A7A564400F565FA /* Debug */,
+				30B528241A7A564400F565FA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E4DFE1311C78E8E100C45228 /* Build configuration list for PBXNativeTarget "WiiU GC Adapter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E4DFE1321C78E8E100C45228 /* Debug */,
+				E4DFE1331C78E8E100C45228 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 30B528131A7A564400F565FA /* Project object */;
+}
