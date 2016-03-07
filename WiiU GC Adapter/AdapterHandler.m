@@ -10,13 +10,14 @@
 const float DEADZONE = 20;
 //const float MAX_VALUE = 10;
 
-struct libusb_transfer *transfer_in = NULL; // IN-coming transfers (IN to host PC from USB-device)
+struct libusb_transfer *transfer_in = NULL; // IN-comiddleg transfers (IN to host PC from USB-device)
 unsigned char in_buffer[38];
 
 NSArray *controllers;
-int stick_max_x[4], stick_min_x[4], stick_max_y[4], stick_min_y[4];
-int c_stick_max_x[4], c_stick_min_x[4], c_stick_max_y[4], c_stick_min_y[4];
-int r_max[4], r_min[4], l_max[4], l_min[4];
+int stick_max_x[4], stick_middle_x[4], stick_max_y[4], stick_middle_y[4];
+int c_stick_max_x[4], c_stick_middle_x[4], c_stick_max_y[4], c_stick_middle_y[4];
+int r_max[4], r_middle[4], l_max[4], l_middle[4];
+int stick_deadzone[4], c_stick_deadzone[4], l_and_r_deadzone[4];
 
 
 @implementation Gcc
@@ -59,37 +60,33 @@ void cbin(struct libusb_transfer* transfer) {
             
             stickXRaw = p[3];
             stickYRaw = p[4];
-            if ((float)stickXRaw > 128 + DEADZONE) {
-            } else {
-                stickX = 0;
-            }
-            stickX = (float)stickXRaw / (128.0) - 1.0;
-            stickY = (float)stickYRaw / (128.0) - 1.0;
-            
-            if (i == 0){
-                if (stickX > 0.1) {
-                    printf("x: %f, %f\n", (float) stickX, (float)stickXRaw);
-                    printf("y: %f, %f\n", (float) stickY, (float)stickYRaw);
-                }
-            }
+
+            stickX = (float) (stickXRaw - stick_middle_x[i]) / (float) stick_max_x[i];
+            stickY = (float) (stickYRaw - stick_middle_y[i]) / (float) stick_max_y[i];
             point.x = stickX;
             point.y = stickY;
             [VHID setPointer:0 position:point];
             
-            stickXRaw = 0;//p[7]; // dit is de l-analog ding: gaat van 25 tot 242
-            stickYRaw = p[5];
-            stickX = (float)stickXRaw / (128.0) - 1.0;
-            stickY = -(float)stickYRaw / (128.0) + 1.0;
-            point.x = 0;
+            stickXRaw = p[7]; // l-analog (25 to 242)
+            stickYRaw = p[5]; // c-stick x
+            stickX = (float) (stickXRaw - l_middle[i]) / (float) l_max[i];
+            stickY = -(float) (stickYRaw - c_stick_middle_x[i]) / (float) stick_max_x[i];
+            if (i == 0)
+                printf("l/r: %f", stickX);
+            
+            point.x = stickX;
             point.y = stickY;
             [VHID setPointer:1 position:point];
             
-            stickXRaw = p[6];
-            stickYRaw = 0;//p[8];  // dit is de r-analog ding
-            stickX = -(float)stickXRaw / (128.0) + 1.0;
-            stickY = -(float)stickYRaw / (128.0) + 1.0;
-            point.x = 0;
+            stickXRaw = p[6];  // c-stick y
+            stickYRaw = p[8];  // r-analog
+            stickX = (float) (stickXRaw - c_stick_middle_y[i]) / (float) stick_max_y[i];
+            stickY = (float) (stickYRaw - r_middle[i]) / (float) r_max[i];
+            if (i == 0)
+                printf(", %f : %i\n", stickY, stickYRaw);
+            point.x = stickX;
             point.y = stickY;
+            
             [VHID setPointer:2 position:point];
         }
         else {
@@ -137,9 +134,7 @@ void cbin(struct libusb_transfer* transfer) {
 @synthesize ctx;
 
 - (int) setup {
-    [self loadControllerCalibrations];
-    [self saveControllerCalibrations];
-    /*
+    
     SInt32 idVendor = 0x057e;
     SInt32 idProduct = 0x0337;
     
@@ -177,9 +172,7 @@ void cbin(struct libusb_transfer* transfer) {
                               in_buffer,  37,  // Note: in_buffer is where input data is written.
                               cbin, NULL, 0); // no user data
     r = libusb_submit_transfer(transfer_in);
-
-    [self loadControllerCalibrations];
-    */
+    
     return 1;
 }
 
@@ -199,101 +192,131 @@ void cbin(struct libusb_transfer* transfer) {
 }
 
 
+
 - (void) loadControllerCalibrations {
+
     NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
-    NSString *stickString = nil;
+    NSString *stickString;
     
     if (standardUserDefaults) {
         stickString = [standardUserDefaults objectForKey:@"stick"];
         short int count;
         
         if (stickString != NULL) {
-            
             stickString = [standardUserDefaults objectForKey:@"stick"];
-            NSArray *listItems = [stickString componentsSeparatedByString:@"-"];
+            NSArray *listItems = [stickString componentsSeparatedByString:@"."];
             count = 0;
             for (id value in listItems) {
                 int i = [((NSString*) value) intValue];
                 if(count==0) stick_max_x[0] = i;  if(count==1) stick_max_x[1] = i;
                 if(count==2) stick_max_x[2] = i;  if(count==3) stick_max_x[3] = i;
-                if(count==4) stick_min_x[0] = i;  if(count==5) stick_min_x[1] = i;
-                if(count==6) stick_min_x[2] = i;  if(count==7) stick_min_x[3] = i;
+                if(count==4) stick_middle_x[0] = i;  if(count==5) stick_middle_x[1] = i;
+                if(count==6) stick_middle_x[2] = i;  if(count==7) stick_middle_x[3] = i;
                 if(count==8) stick_max_y[0] = i;  if(count==9) stick_max_y[1] = i;
                 if(count==10) stick_max_y[2] = i;  if(count==11) stick_max_y[3] = i;
-                if(count==12) stick_min_y[0] = i;  if(count==13) stick_min_y[1] = i;
-                if(count==14) stick_min_y[2] = i;  if(count==15) stick_min_y[3] = i;
+                if(count==12) stick_middle_y[0] = i;  if(count==13) stick_middle_y[1] = i;
+                if(count==14) stick_middle_y[2] = i;  if(count==15) stick_middle_y[3] = i;
                 count++;
             }
             
             stickString = [standardUserDefaults objectForKey:@"c_stick"];
-            listItems = [stickString componentsSeparatedByString:@"-"];
+            listItems = [stickString componentsSeparatedByString:@"."];
             count = 0;
             for (id value in listItems) {
                 int i = [((NSString*) value) intValue];
                 if(count==0) c_stick_max_x[0] = i;  if(count==1) c_stick_max_x[1] = i;
                 if(count==2) c_stick_max_x[2] = i;  if(count==3) c_stick_max_x[3] = i;
-                if(count==4) c_stick_min_x[0] = i;  if(count==5) c_stick_min_x[1] = i;
-                if(count==6) c_stick_min_x[2] = i;  if(count==7) c_stick_min_x[3] = i;
+                if(count==4) c_stick_middle_x[0] = i;  if(count==5) c_stick_middle_x[1] = i;
+                if(count==6) c_stick_middle_x[2] = i;  if(count==7) c_stick_middle_x[3] = i;
                 if(count==8) c_stick_max_y[0] = i;  if(count==9) c_stick_max_y[1] = i;
                 if(count==10) c_stick_max_y[2] = i;  if(count==11) c_stick_max_y[3] = i;
-                if(count==12) c_stick_min_y[0] = i;  if(count==13) c_stick_min_y[1] = i;
-                if(count==14) c_stick_min_y[2] = i;  if(count==15) c_stick_min_y[3] = i;
+                if(count==12) c_stick_middle_y[0] = i;  if(count==13) c_stick_middle_y[1] = i;
+                if(count==14) c_stick_middle_y[2] = i;  if(count==15) c_stick_middle_y[3] = i;
                 count++;
             }
             
             count = 0;
             stickString = [standardUserDefaults objectForKey:@"l_and_r"];
-            listItems = [stickString componentsSeparatedByString:@"-"];
+            listItems = [stickString componentsSeparatedByString:@"."];
             for (id value in listItems) {
-                printf("%i", count);
                 int i = [((NSString*) value) intValue];
+                printf("%i, ", i);
                 if(count==0) r_max[0] = i;  if(count==1) r_max[1] = i;  if(count==2) r_max[2] = i;  if(count==3) r_max[3] = i;
-                if(count==4) r_min[0] = i;  if(count==5) r_min[1] = i;  if(count==6) r_min[2] = i;  if(count==7) r_min[3] = i;
+                if(count==4) r_middle[0] = i;  if(count==5) r_middle[1] = i;  if(count==6) r_middle[2] = i;  if(count==7) r_middle[3] = i;
                 if(count==8) l_max[0] = i;  if(count==9) l_max[1] = i;  if(count==10) l_max[2] = i;  if(count==11) l_max[3] = i;
-                if(count==12) l_min[0] = i;  if(count==13) l_min[1] = i;  if(count==14) l_min[2] = i;  if(count==15) l_min[3] = i;
+                if(count==12) l_middle[0] = i;  if(count==13) l_middle[1] = i;  if(count==14) l_middle[2] = i;  if(count==15) l_middle[3] = i;
                 count++;
             }
             
         } else {
-            [((ViewController *) [[NSApplication sharedApplication] mainWindow].contentViewController).functions addStringtoLog:@" Using default controller calibrations."];
+            [((ViewController *) [[NSApplication sharedApplication] mainWindow].contentViewController).functions addStringtoLog:@"  No controller calibrations found, using defaults."];
             [self loadDefaultCalibrations];
         }
     }
 }
 
+
 - (void) saveControllerCalibrations {
     NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
     
     if (standardUserDefaults) {
-        NSString *maxx = [NSString stringWithFormat:@"%i-%i-%i-%i", stick_max_x[0], stick_max_x[1], stick_max_x[2], stick_max_x[3]];
-        NSString *minx = [NSString stringWithFormat:@"%i-%i-%i-%i", stick_min_x[0], stick_min_x[1], stick_min_x[2], stick_min_x[3]];
-        NSString *maxy = [NSString stringWithFormat:@"%i-%i-%i-%i", stick_max_y[0], stick_max_y[1], stick_max_y[2], stick_max_y[3]];
-        NSString *miny = [NSString stringWithFormat:@"%i-%i-%i-%i", stick_min_y[0], stick_min_y[1], stick_min_y[2], stick_min_y[3]];
-        NSString *values = [NSString stringWithFormat:@"%@-%@-%@-%@", maxx, minx, maxy, miny];
+        NSString *maxx = [NSString stringWithFormat:@"%i.%i.%i.%i", stick_max_x[0], stick_max_x[1], stick_max_x[2], stick_max_x[3]];
+        NSString *middlex = [NSString stringWithFormat:@"%i.%i.%i.%i", stick_middle_x[0], stick_middle_x[1], stick_middle_x[2], stick_middle_x[3]];
+        NSString *maxy = [NSString stringWithFormat:@"%i.%i.%i.%i", stick_max_y[0], stick_max_y[1], stick_max_y[2], stick_max_y[3]];
+        NSString *middley = [NSString stringWithFormat:@"%i.%i.%i.%i", stick_middle_y[0], stick_middle_y[1], stick_middle_y[2], stick_middle_y[3]];
+        NSString *values = [NSString stringWithFormat:@"%@.%@.%@.%@", maxx, middlex, maxy, middley];
         [standardUserDefaults setObject:values forKey:@"stick"];
-        [standardUserDefaults synchronize];
         
-        maxx = [NSString stringWithFormat:@"%i-%i-%i-%i", c_stick_max_x[0], c_stick_max_x[1], c_stick_max_x[2], c_stick_max_x[3]];
-        minx = [NSString stringWithFormat:@"%i-%i-%i-%i", c_stick_min_x[0], c_stick_min_x[1], c_stick_min_x[2], c_stick_min_x[3]];
-        maxy = [NSString stringWithFormat:@"%i-%i-%i-%i", c_stick_max_y[0], c_stick_max_y[1], c_stick_max_y[2], c_stick_max_y[3]];
-        miny = [NSString stringWithFormat:@"%i-%i-%i-%i", c_stick_min_y[0], c_stick_min_y[1], c_stick_min_y[2], c_stick_min_y[3]];
-        values = [NSString stringWithFormat:@"%@-%@-%@-%@", maxx, minx, maxy, miny];
+        maxx = [NSString stringWithFormat:@"%i.%i.%i.%i", c_stick_max_x[0], c_stick_max_x[1], c_stick_max_x[2], c_stick_max_x[3]];
+        middlex = [NSString stringWithFormat:@"%i.%i.%i.%i", c_stick_middle_x[0], c_stick_middle_x[1], c_stick_middle_x[2], c_stick_middle_x[3]];
+        maxy = [NSString stringWithFormat:@"%i.%i.%i.%i", c_stick_max_y[0], c_stick_max_y[1], c_stick_max_y[2], c_stick_max_y[3]];
+        middley = [NSString stringWithFormat:@"%i.%i.%i.%i", c_stick_middle_y[0], c_stick_middle_y[1], c_stick_middle_y[2], c_stick_middle_y[3]];
+        values = [NSString stringWithFormat:@"%@.%@.%@.%@", maxx, middlex, maxy, middley];
         [standardUserDefaults setObject:values forKey:@"c_stick"];
-        [standardUserDefaults synchronize];
         
-        maxy = [NSString stringWithFormat:@"%i-%i-%i-%i", r_max[0], r_max[1], r_max[2], r_max[3]];
-        minx = [NSString stringWithFormat:@"%i-%i-%i-%i", r_min[0], r_min[1], r_min[2], r_min[3]];
-        maxy = [NSString stringWithFormat:@"%i-%i-%i-%i", l_max[0], l_max[1], l_max[2], l_max[3]];
-        miny = [NSString stringWithFormat:@"%i-%i-%i-%i", l_min[0], l_min[1], l_min[2], l_min[3]];
-        values = [NSString stringWithFormat:@"%@-%@-%@-%@", maxx, minx, maxy, miny];
+        maxx = [NSString stringWithFormat:@"%i.%i.%i.%i", r_max[0], r_max[1], r_max[2], r_max[3]];
+        middlex = [NSString stringWithFormat:@"%i.%i.%i.%i", r_middle[0], r_middle[1], r_middle[2], r_middle[3]];
+        maxy = [NSString stringWithFormat:@"%i.%i.%i.%i", l_max[0], l_max[1], l_max[2], l_max[3]];
+        middley = [NSString stringWithFormat:@"%i.%i.%i.%i", l_middle[0], l_middle[1], l_middle[2], l_middle[3]];
+        values = [NSString stringWithFormat:@"%@.%@.%@.%@", maxx, middlex, maxy, middley];
         [standardUserDefaults setObject:values forKey:@"l_and_r"];
+        
+        maxx = [NSString stringWithFormat:@"%i.%i.%i.%i", r_max[0], r_max[1], r_max[2], r_max[3]];
+        middlex = [NSString stringWithFormat:@"%i.%i.%i.%i", r_middle[0], r_middle[1], r_middle[2], r_middle[3]];
+        maxy = [NSString stringWithFormat:@"%i.%i.%i.%i", l_max[0], l_max[1], l_max[2], l_max[3]];
+        middley = [NSString stringWithFormat:@"%i.%i.%i.%i", l_middle[0], l_middle[1], l_middle[2], l_middle[3]];
+        values = [NSString stringWithFormat:@"%@.%@.%@.%@", maxx, middlex, maxy, middley];
+        [standardUserDefaults setObject:values forKey:@"deadzones"];
+        
         [standardUserDefaults synchronize];
     }
 }
 
+
 - (void) loadDefaultCalibrations {
-    //TODO
+    for (int i = 0; i < 4; i++) {
+        stick_max_x[i] = 103; stick_middle_x[i] = 122;
+        stick_max_y[i] = 100; stick_middle_y[i] = 130;
+        
+        c_stick_max_x[i] = 93; c_stick_middle_x[i] = 128;
+        c_stick_max_y[i] = 101; c_stick_middle_y[i] = 132;
+        
+        l_max[i] = 200; l_middle[i] = 23;
+        r_max[i] = 212; r_middle[i] = 22;
+    }
     
+    [self saveControllerCalibrations];
+}
+
+- (void) restoreDefaultCalibrations {
+    NSUserDefaults * defs = [NSUserDefaults standardUserDefaults];
+    NSDictionary * dict = [defs dictionaryRepresentation];
+    for (id key in dict) {
+        [defs removeObjectForKey:key];
+    }
+    [defs synchronize];
+    
+    [self loadDefaultCalibrations];
     [self saveControllerCalibrations];
 }
 

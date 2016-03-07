@@ -184,11 +184,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WiiU GC Adapter/AdapterHandler.m"
-            timestampString = "479065691.596371"
+            timestampString = "479082198.31711"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "231"
-            endingLineNumber = "231"
+            startingLineNumber = "269"
+            endingLineNumber = "269"
             landmarkName = "-saveControllerCalibrations"
             landmarkType = "5">
          </BreakpointContent>

@@ -32,8 +32,12 @@
 - (int) setup;
 - (void) reset;
 - (void) update;
+
 - (void) loadControllerCalibrations;
 - (void) saveControllerCalibrations;
+- (void) loadDefaultCalibrations;
+- (void) restoreDefaultCalibrations;
+
 @end
 
 

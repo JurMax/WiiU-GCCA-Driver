@@ -104,5 +104,9 @@
 }
 
 
+- (IBAction)calibratePort1:(id)sender {
+    /* debug */
+    [((ViewController *) mainWindow.contentViewController).functions.gccManager restoreDefaultCalibrations];
+}
 
 @end
