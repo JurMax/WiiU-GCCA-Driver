@@ -10,47 +10,30 @@
 
 @implementation ViewController
 
-//Functions *functies;
-@synthesize functies;
+@synthesize functions;
 
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    functies = [[Functions alloc] init];
-    //functies.viewController = self;
+    functions = [[Functions alloc] init];
 }
 
 - (void)setRepresentedObject:(id)representedObject {
     [super setRepresentedObject:representedObject];
-    printf("updateview");
-    // Update the view, if already loaded.
 }
 
 
 - (IBAction)initializeAdapter:(NSButton *)sender {
-    [functies initalizeAdapter];
+    [functions initializeAdapterOnly];
 }
 
 - (IBAction)startDriver:(NSButton *)sender {
-    /*
-    [_largeTextView setString:@"testttestt\nestt\nestt\nestt\nesadsfasdgadsgasdgadfhadfgdsafasdfasdgasdfadsasdgasdgadsgkljasdflkahsdfkjhasdkfjhasdkjfhzxkjhfkasdtt\nestt\nestt\nestt\nestt\nestt\nestt\nestt\nestt\nestt\nestt\nestt\nestt\nestt\nestt\nestt\nestt\nestt\nestt\nestt\nestt\nestt\nestt\nestt\nestt\nestt\nestt\nestt\nestt\nestt\nestt\nestt\nestt\nestt\nestt\nestt\nestt\nestt\nestt\nestt\nestt\nestt\nestt\nestt\nestt\nestt\nestt\nestt\nestt\nestt\nestt\nestt\nestt\nestt\nestt\nestt\nestt\nestt\nestt\nestt\nestt\nestt\nestt\nestt\nestt\nestt\nestt\nestt\nestt\ntest"];*/
-    [functies startDriver];
+    [functions startDriver];
 }
+
 
 - (IBAction)stopDriver:(NSButton *)sender {
-    [functies stopDriver];
+    [functions stopDriver];
 }
-
-
-
-
-
-
-- (IBAction)waitFunction:(NSTextField *)sender {
-    [[[GccManager alloc] init] testVoid: sender progressbar:_ProgressBar];
-}
-
-
 
 @end

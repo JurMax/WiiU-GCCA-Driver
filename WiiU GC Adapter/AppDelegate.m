@@ -12,19 +12,14 @@
 
 
 @interface AppDelegate ()
-
 @property (strong, nonatomic) NSStatusItem *statusItem;
 @property (assign, nonatomic) BOOL darkModeOn;
-
 @property (weak) IBOutlet NSMenu *StatusBarMenu;
 @property (weak) IBOutlet NSWindow *mainWindow;
-
 @end
 
 
-
 @implementation AppDelegate
-
 @synthesize mainWindow;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
@@ -40,8 +35,11 @@
         while (!isMainWindowLoaded) {
             if ([[NSApplication sharedApplication] mainWindow] != nil) {
                 isMainWindowLoaded = true;
-                mainWindow = [[NSApplication sharedApplication] mainWindow];
-                [mainWindow setReleasedWhenClosed:NO];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    mainWindow = [[NSApplication sharedApplication] mainWindow];
+                    [mainWindow setReleasedWhenClosed:NO];
+                    [mainWindow setCollectionBehavior: NSWindowCollectionBehaviorCanJoinAllSpaces];
+                });
             }
         }
     });
@@ -49,13 +47,29 @@
 
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
-    
+    ViewController *viewController = (ViewController *) mainWindow.contentViewController;
+    [viewController.functions stopDriver];
+    [viewController.functions.gccManager reset];
+
+    NSLog(@"Quiting...");
 }
 
 
 - (BOOL)validateMenuItem:(NSMenuItem *)item {
-    if ([item.title  isEqual: @"Open Window"]) {
-        return !mainWindow.isVisible;
+    ViewController *viewController = (ViewController *) mainWindow.contentViewController;
+    if (item.tag == 7) { /* open/close window*/
+        if (mainWindow.isVisible) {
+            item.title = @"Close Window";
+        } else {
+            item.title = @"Open Window";
+        }
+        return TRUE;
+    }
+    else if ([item.title isEqual: @"Start"]) {
+        return viewController.startButton.enabled;
+    }
+    else if ([item.title isEqual: @"Stop"]) {
+        return viewController.stopButton.enabled;
     }
     return TRUE;
 }
@@ -64,25 +78,29 @@
 //* Menu Items *//
 - (IBAction)InitializeAdapter:(id)sender {
     ViewController *viewController = (ViewController *) mainWindow.contentViewController;
-    [viewController.functies initalizeAdapter];
+    [viewController.functions initializeAdapterOnly];
 }
 
 - (IBAction)startDriver:(id)sender {
     ViewController *viewController = (ViewController *) mainWindow.contentViewController;
-    [viewController.functies startDriver];
+    [viewController.functions startDriver];
 }
 
 - (IBAction)stopDriver:(id)sender {
     ViewController *viewController = (ViewController *) mainWindow.contentViewController;
-    [viewController.functies stopDriver];
+    [viewController.functions stopDriver];
 }
 
 - (IBAction)quitApplication:(id)sender {
     exit(0);
 }
 
-- (IBAction)OpenWindow:(id)sender {
-    [mainWindow makeKeyAndOrderFront:nil];
+- (IBAction)openOrCloseWindow:(NSMenuItem *)sender {
+    if (mainWindow.isVisible) {
+        [mainWindow close];
+    } else {
+        [mainWindow makeKeyAndOrderFront:nil];
+    }
 }
 
 

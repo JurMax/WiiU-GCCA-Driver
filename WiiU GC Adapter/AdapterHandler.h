@@ -11,10 +11,13 @@
 #import <WirtualJoy/WJoyDevice.h>
 #import <VHID/VHIDDevice.h>
 #import "libusb.h"
+#import "Functions.h"
+#import "ViewController.h"
 
 #ifndef AdapterHandler_h
-
 #define AdapterHandler_h
+
+@class Functions;
 
 @interface Gcc : NSObject <VHIDDeviceDelegate>
 @property (strong, nonatomic) VHIDDevice *VHID;
@@ -23,8 +26,14 @@
 
 @interface GccManager : NSObject
 @property (nonatomic) libusb_device_handle *dev_handle;
-- (void) setup;
-- (void) testVoid: (NSTextField*) seconds progressbar:(NSProgressIndicator*) ding;
+@property (nonatomic) libusb_context *ctx;
+@property (nonatomic) int r;
+
+- (int) setup;
+- (void) reset;
+- (void) update;
+- (void) loadControllerCalibrations;
+- (void) saveControllerCalibrations;
 @end
 
 

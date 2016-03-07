@@ -265,11 +265,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E48B7BB21C7A075200A59E49 /* AppDelegate.m in Sources */,
 				E4DFE12A1C78E8E100C45228 /* ViewController.m in Sources */,
-				E428ABCD1C78F8CD00BFC732 /* AdapterHandler.m in Sources */,
-				E4DFE16B1C78F68400C45228 /* main.m in Sources */,
+				E48B7BB21C7A075200A59E49 /* AppDelegate.m in Sources */,
 				E48B7BB41C7A0B3700A59E49 /* Functions.m in Sources */,
+				E4DFE16B1C78F68400C45228 /* main.m in Sources */,
+				E428ABCD1C78F8CD00BFC732 /* AdapterHandler.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -8,17 +8,25 @@
 
 #import <Foundation/Foundation.h>
 #import <Cocoa/Cocoa.h>
+#import "AdapterHandler.h"
+#import "ViewController.h"
 
+@class GccManager;
+@class ViewController;
 
 @interface Functions : NSObject
 
-//@property (strong) ViewController* viewController;
+@property (nonatomic) bool isInitialized;
+@property (nonatomic) bool isDriverRunning;
 @property (strong, nonatomic) NSString* logString;
+@property (nonatomic) GccManager* gccManager;
 
 
 - (void) addStringtoLog: (NSString*) string;
-- (void) initalizeAdapter;
+- (void) initializeAdapterOnly;
+- (void) initializeAdapter;
 - (void) startDriver;
 - (void) stopDriver;
-
+- (void) startProgressBar: (float) seconds;
+- (ViewController*) getViewController;
 @end

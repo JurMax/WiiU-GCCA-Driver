@@ -12,16 +12,22 @@
 #import "AdapterHandler.h"
 
 
+@class Functions;
+
 @interface ViewController : NSViewController
 
-
-@property (weak) IBOutlet NSProgressIndicator *ProgressBar;
+@property (weak) IBOutlet NSProgressIndicator *progressBar;
 @property (strong, nonatomic) IBOutlet NSTextField *TextField;
 
-@property (unsafe_unretained) IBOutlet NSTextView *largeTextView;
+@property (strong, nonatomic) IBOutlet NSTextView *largeTextView;
+
+@property (weak) IBOutlet NSButtonCell *startButton;
+@property (weak) IBOutlet NSButtonCell *stopButton;
+@property (weak) IBOutlet NSButtonCell *initializeAdapterButton;
+
 
 @property NSString *string;
-@property Functions *functies;
+@property Functions *functions;
 
 @end
 
