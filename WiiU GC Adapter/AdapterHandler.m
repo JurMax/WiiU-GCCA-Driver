@@ -14,7 +14,7 @@ struct libusb_transfer *transfer_in = NULL; // IN-comiddleg transfers (IN to hos
 unsigned char in_buffer[38];
 
 NSArray *controllers;
-bool isControllerInserted[4] = { FALSE, FALSE, FALSE, FALSE };
+bool isControllerInserted[4];
 int stick_max_x[4], stick_middle_x[4], stick_max_y[4], stick_middle_y[4];
 int c_stick_max_x[4], c_stick_middle_x[4], c_stick_max_y[4], c_stick_middle_y[4];
 int r_max[4], r_middle[4], l_max[4], l_middle[4];
@@ -57,22 +57,22 @@ void cbin(struct libusb_transfer* transfer) {
     NSPoint point = NSZeroPoint;
     
     if (transfer -> status > 0){
+        printf("asdf\n");
         dispatch_async(dispatch_get_main_queue(), ^{
-            NSWindow *mainWindow = [[NSApplication sharedApplication] mainWindow];
-            Functions *functions = ((ViewController *) mainWindow.contentViewController).functions;
+            Functions *functions = ((ViewController *) [[NSApplication sharedApplication] mainWindow].contentViewController).functions;
             [functions addStringtoLog:@"- Something went wrong, the driver has closed. -\n"];
             functions.isInitialized = FALSE;
-            functions.isDriverRunning = FALSE;
+            [functions stopDriver];
         });
     };
     
     
     for (int i = 0; i < 4; i++) {
-        if (p[0] > 4) {
+        if (p[0] > 4) { /* Is controller inserted*/
             if (!isControllerInserted[i]) {
                 isControllerInserted[i] = TRUE;
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    NSString *string = @""; string = [string stringByAppendingFormat:@"  Controller inserted in port %i.\n", i + 1];
+                    NSString *string = @""; string = [string stringByAppendingFormat:@"  Controller detected in port %i.\n", i + 1];
                     Functions *functions = ((ViewController *) [[NSApplication sharedApplication] mainWindow].contentViewController).functions;
                     [functions addStringtoLog: string];
                 });
@@ -122,11 +122,9 @@ void cbin(struct libusb_transfer* transfer) {
             //    printf(", %f : %i\n", stickY, stickYRaw);
             point.x = stickX;
             point.y = stickY;
-            
             [VHID setPointer:2 position:point];
         }
         else {
-            /* Is controller inserted*/
             VHIDDevice *VHID = [controllers[i] VHID];
             point.x = 0;
             point.y = 0;
@@ -188,10 +186,8 @@ void cbin(struct libusb_transfer* transfer) {
     data[0] = 0x13;
     libusb_bulk_transfer(dev_handle, (2 | LIBUSB_ENDPOINT_OUT), data, 1, &actual, 0);
 
-    controllers = @[[[Gcc alloc] init],
-                    [[Gcc alloc] init],
-                    [[Gcc alloc] init],
-                    [[Gcc alloc] init]];
+    [self removeControllers];
+    controllers = @[[[Gcc alloc] init], [[Gcc alloc] init], [[Gcc alloc] init], [[Gcc alloc] init]];
     
     transfer_in  = libusb_alloc_transfer(0);
     libusb_fill_bulk_transfer(transfer_in, dev_handle, (1 | LIBUSB_ENDPOINT_IN), in_buffer, 37, cbin, NULL, 0);
@@ -208,16 +204,14 @@ void cbin(struct libusb_transfer* transfer) {
 }
 
 - (void) removeControllers {
-    [controllers[0] remove];
-    [controllers[1] remove];
-    [controllers[2] remove];
-    [controllers[3] remove];
+    for (int i; i < 4; i++) {
+        if (controllers[i] != NULL)
+            [controllers[i] remove];
+        isControllerInserted[i] = FALSE;
+    }
 }
 
 - (void) update {
-    //NSDictionary *properties = @{ WJoyDeviceProductStringKey : ( [NSString stringWithFormat: @"Testtest %@", @[@"1", @"2", @"3", @"4"] [2]] ),
-      //                            WJoyDeviceSerialNumberStringKey : ( [NSString stringWithFormat:@"1%@", @[@"1", @"2", @"3", @"4"] [1]] ) };
-    //NSLog(@"%@",[[controllers[0] virtualDevice] properties]);
     r = libusb_handle_events_completed(ctx, NULL);
 }
 

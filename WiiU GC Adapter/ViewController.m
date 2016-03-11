@@ -9,9 +9,7 @@
 #import "ViewController.h"
 
 @implementation ViewController
-
 @synthesize functions;
-
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -34,6 +32,14 @@
 
 - (IBAction)stopDriver:(NSButton *)sender {
     [functions stopDriver];
+}
+
+- (IBAction)clearLog:(NSButton *)sender {
+    
+    [functions setLogString: @""];
+    [_largeTextView setString: @""];
+    NSLog(@"Log: *Log cleared*");
+
 }
 
 @end

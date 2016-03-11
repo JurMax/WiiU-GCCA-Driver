@@ -16,26 +16,13 @@
 		E48B7BAE1C7A05FB00A59E49 /* switchIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = E48B7BAD1C7A05FB00A59E49 /* switchIcon.png */; settings = {ASSET_TAGS = (); }; };
 		E48B7BB21C7A075200A59E49 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E4DFE1231C78E8E100C45228 /* AppDelegate.m */; };
 		E48B7BB41C7A0B3700A59E49 /* Functions.m in Sources */ = {isa = PBXBuildFile; fileRef = E48B7BB31C7A0B3700A59E49 /* Functions.m */; settings = {ASSET_TAGS = (); }; };
-		E4DD9D121C933E3700A0479E /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = E4DD9D111C933E3700A0479E /* README.md */; settings = {ASSET_TAGS = (); }; };
-		E4DD9D131C933E3700A0479E /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = E4DD9D111C933E3700A0479E /* README.md */; settings = {ASSET_TAGS = (); }; };
 		E4DFE12A1C78E8E100C45228 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E4DFE1291C78E8E100C45228 /* ViewController.m */; };
 		E4DFE12C1C78E8E100C45228 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E4DFE12B1C78E8E100C45228 /* Assets.xcassets */; };
 		E4DFE12F1C78E8E100C45228 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E4DFE12D1C78E8E100C45228 /* Main.storyboard */; };
-		E4DFE14B1C78EEF400C45228 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E4DFE12B1C78E8E100C45228 /* Assets.xcassets */; };
-		E4DFE14C1C78EEF400C45228 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E4DFE12D1C78E8E100C45228 /* Main.storyboard */; };
 		E4DFE16B1C78F68400C45228 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E4DFE1261C78E8E100C45228 /* main.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		30B528191A7A564400F565FA /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 12;
-			dstPath = ../frameworks;
-			dstSubfolderSpec = 10;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		E41D25DC1C8CC4560084B6B9 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -51,7 +38,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		30B5281B1A7A564400F565FA /* wiiu-gcc-adapter-bin */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "wiiu-gcc-adapter-bin"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E41D25B21C8CBA560084B6B9 /* libusb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libusb.h; sourceTree = "<group>"; };
 		E41D25B31C8CBA560084B6B9 /* libusb-1.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libusb-1.0.a"; sourceTree = "<group>"; };
 		E41D25CD1C8CBEE00084B6B9 /* VHID.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = VHID.framework; sourceTree = "<group>"; };
@@ -74,13 +60,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		30B528181A7A564400F565FA /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		E4DFE11D1C78E8E000C45228 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -108,7 +87,6 @@
 		30B5281C1A7A564400F565FA /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				30B5281B1A7A564400F565FA /* wiiu-gcc-adapter-bin */,
 				E4DFE1201C78E8E000C45228 /* WiiU GC Adapter.app */,
 			);
 			name = Products;
@@ -163,24 +141,6 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		30B5281A1A7A564400F565FA /* wiiu-gcc-adapter-bin */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 30B528221A7A564400F565FA /* Build configuration list for PBXNativeTarget "wiiu-gcc-adapter-bin" */;
-			buildPhases = (
-				30B528171A7A564400F565FA /* Sources */,
-				30B528181A7A564400F565FA /* Frameworks */,
-				30B528191A7A564400F565FA /* CopyFiles */,
-				E4DFE14A1C78EEEC00C45228 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "wiiu-gcc-adapter-bin";
-			productName = "wiiu-gcc-adapter";
-			productReference = 30B5281B1A7A564400F565FA /* wiiu-gcc-adapter-bin */;
-			productType = "com.apple.product-type.tool";
-		};
 		E4DFE11F1C78E8E000C45228 /* WiiU GC Adapter */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = E4DFE1311C78E8E100C45228 /* Build configuration list for PBXNativeTarget "WiiU GC Adapter" */;
@@ -208,9 +168,6 @@
 				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "Mitch Dzugan";
 				TargetAttributes = {
-					30B5281A1A7A564400F565FA = {
-						CreatedOnToolsVersion = 6.1.1;
-					};
 					E4DFE11F1C78E8E000C45228 = {
 						CreatedOnToolsVersion = 7.0.1;
 					};
@@ -229,7 +186,6 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				30B5281A1A7A564400F565FA /* wiiu-gcc-adapter-bin */,
 				E4DFE11F1C78E8E000C45228 /* WiiU GC Adapter */,
 			);
 		};
@@ -246,31 +202,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		E4DFE14A1C78EEEC00C45228 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				E4DFE14B1C78EEF400C45228 /* Assets.xcassets in Resources */,
-				E4DFE14C1C78EEF400C45228 /* Main.storyboard in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		30B528171A7A564400F565FA /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				E4DD9D121C933E3700A0479E /* README.md in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		E4DFE11C1C78E8E000C45228 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E4DD9D131C933E3700A0479E /* README.md in Sources */,
 				E4DFE12A1C78E8E100C45228 /* ViewController.m in Sources */,
 				E48B7BB21C7A075200A59E49 /* AppDelegate.m in Sources */,
 				E48B7BB41C7A0B3700A59E49 /* Functions.m in Sources */,
@@ -368,57 +306,6 @@
 			};
 			name = Release;
 		};
-		30B528231A7A564400F565FA /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ENABLE_MODULES = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)",
-				);
-				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
-				INFOPLIST_FILE = "wiiu-gcc-adapter/Info.plist";
-				INSTALL_PATH = "$(LOCAL_APPS_DIR)";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/wiiu-gcc-adapter",
-				);
-				"LIBRARY_SEARCH_PATHS[arch=*]" = (
-					/usr/local/lib,
-					"$(inherited)",
-					"$(PROJECT_DIR)/wiiu-gcc-adapter",
-				);
-				PRODUCT_NAME = "wiiu-gcc-adapter-bin";
-				SDKROOT = macosx;
-			};
-			name = Debug;
-		};
-		30B528241A7A564400F565FA /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ENABLE_MODULES = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)",
-				);
-				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
-				INFOPLIST_FILE = "wiiu-gcc-adapter/Info.plist";
-				INSTALL_PATH = "$(LOCAL_APPS_DIR)";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/wiiu-gcc-adapter",
-				);
-				"LIBRARY_SEARCH_PATHS[arch=*]" = (
-					/usr/local/lib,
-					"$(inherited)",
-					"$(PROJECT_DIR)/wiiu-gcc-adapter",
-				);
-				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_NAME = "wiiu-gcc-adapter-bin";
-				SDKROOT = macosx;
-			};
-			name = Release;
-		};
 		E4DFE1321C78E8E100C45228 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -440,7 +327,7 @@
 					"$(PROJECT_DIR)/WiiU\\ GC\\ Adapter",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.WiiU-GC-Adapter";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.WiiU-GCC-Adapter";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -466,7 +353,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.WiiU-GC-Adapter";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.WiiU-GCC-Adapter";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -479,15 +366,6 @@
 			buildConfigurations = (
 				30B528201A7A564400F565FA /* Debug */,
 				30B528211A7A564400F565FA /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		30B528221A7A564400F565FA /* Build configuration list for PBXNativeTarget "wiiu-gcc-adapter-bin" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				30B528231A7A564400F565FA /* Debug */,
-				30B528241A7A564400F565FA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

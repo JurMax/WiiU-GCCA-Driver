@@ -18,6 +18,7 @@
 
 @property (nonatomic) bool isInitialized;
 @property (nonatomic) bool isDriverRunning;
+@property (nonatomic) long int driverRunningTime;
 @property (strong, nonatomic) NSString* logString;
 @property (nonatomic) GccManager* gccManager;
 

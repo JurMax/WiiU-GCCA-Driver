@@ -38,6 +38,7 @@
                 dispatch_async(dispatch_get_main_queue(), ^{
                     mainWindow = [[NSApplication sharedApplication] mainWindow];
                     [mainWindow setReleasedWhenClosed:NO];
+                    [mainWindow setLevel:NSModalPanelWindowLevel];
                     [mainWindow setCollectionBehavior: NSWindowCollectionBehaviorCanJoinAllSpaces];
                 });
             }
@@ -106,6 +107,9 @@
 
 - (IBAction)calibratePort1:(id)sender {
     /* debug */
+    float width = mainWindow.frame.size.width;
+    float height = mainWindow.frame.size.height;
+    printf("w: %f,  h: %f", width, height);
     [((ViewController *) mainWindow.contentViewController).functions.gccManager restoreDefaultCalibrations];
 }
 
