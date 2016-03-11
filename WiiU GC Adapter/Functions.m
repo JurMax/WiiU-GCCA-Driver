@@ -94,9 +94,7 @@ bool isClosed = TRUE;
         
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
             [self initializeAdapter];
-            if (isInitialized) {
-                [self runDriver];
-            }
+            [self runDriver];
         });
     } else {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
@@ -110,6 +108,7 @@ bool isClosed = TRUE;
     isDriverRunning = FALSE;
     
     while (!isClosed) {}; /* to make sure the driver isn't running */
+    [gccManager removeControllers];
     [self addStringtoLog: @"- Driver closed. -\n"];
     [self getViewController].startButton.enabled = YES;
     [self getViewController].stopButton.enabled = NO;

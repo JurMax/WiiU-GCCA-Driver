@@ -52,22 +52,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WiiU GC Adapter/main.m"
-            timestampString = "477692940.35158"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "12"
-            endingLineNumber = "12"
-            landmarkName = "main()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -88,7 +72,7 @@
                   moduleName = "WiiU GC Adapter"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/jurriaanvandenberg/Documents/Programming/XCode%20-%20Objective%20C%20:%20Swift/WiiU%20GCC%20Adapter/WiiU%20GC%20Adapter/Functions.h"
-                  timestampString = "479062732.972913"
+                  timestampString = "479408944.127055"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "20"
@@ -103,7 +87,7 @@
                   moduleName = "WiiU GC Adapter"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/jurriaanvandenberg/Documents/Programming/XCode%20-%20Objective%20C%20:%20Swift/WiiU%20GCC%20Adapter/WiiU%20GC%20Adapter/Functions.h"
-                  timestampString = "479062732.973128"
+                  timestampString = "479408944.127278"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "0"
@@ -136,7 +120,7 @@
                   moduleName = "WiiU GC Adapter"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/jurriaanvandenberg/Documents/Programming/XCode%20-%20Objective%20C%20:%20Swift/WiiU%20GCC%20Adapter/WiiU%20GC%20Adapter/ViewController.h"
-                  timestampString = "479062732.974572"
+                  timestampString = "479408944.128658"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "30"
@@ -151,7 +135,7 @@
                   moduleName = "WiiU GC Adapter"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/jurriaanvandenberg/Documents/Programming/XCode%20-%20Objective%20C%20:%20Swift/WiiU%20GCC%20Adapter/WiiU%20GC%20Adapter/ViewController.h"
-                  timestampString = "479062732.974793"
+                  timestampString = "479408944.128878"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "30"
@@ -164,7 +148,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WiiU GC Adapter/Functions.m"
@@ -184,13 +168,29 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WiiU GC Adapter/AdapterHandler.m"
-            timestampString = "479082198.31711"
+            timestampString = "479411442.981308"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "269"
-            endingLineNumber = "269"
+            startingLineNumber = "299"
+            endingLineNumber = "299"
             landmarkName = "-saveControllerCalibrations"
             landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WiiU GC Adapter/AdapterHandler.m"
+            timestampString = "479411442.981308"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "223"
+            endingLineNumber = "223"
+            landmarkName = "@implementation GccManager"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

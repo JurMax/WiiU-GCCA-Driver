@@ -31,6 +31,7 @@
 
 - (int) setup;
 - (void) reset;
+- (void) removeControllers;
 - (void) update;
 
 - (void) loadControllerCalibrations;

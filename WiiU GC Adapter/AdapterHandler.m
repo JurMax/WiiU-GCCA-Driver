@@ -14,93 +14,17 @@ struct libusb_transfer *transfer_in = NULL; // IN-comiddleg transfers (IN to hos
 unsigned char in_buffer[38];
 
 NSArray *controllers;
+bool isControllerInserted[4] = { FALSE, FALSE, FALSE, FALSE };
 int stick_max_x[4], stick_middle_x[4], stick_max_y[4], stick_middle_y[4];
 int c_stick_max_x[4], c_stick_middle_x[4], c_stick_max_y[4], c_stick_middle_y[4];
 int r_max[4], r_middle[4], l_max[4], l_middle[4];
 int stick_deadzone[4], c_stick_deadzone[4], l_and_r_deadzone[4];
 
 
+
 @implementation Gcc
 @synthesize VHID;
 @synthesize virtualDevice;
-
-void cbin(struct libusb_transfer* transfer) {
-    unsigned char * p = in_buffer+1;
-    unsigned char stickXRaw, stickYRaw;
-    float stickX, stickY;
-    NSPoint point = NSZeroPoint;
-    
-    if (transfer -> status > 0){
-        //Something went wrong, so exit
-        dispatch_async(dispatch_get_main_queue(), ^{
-            NSWindow *mainWindow = [[NSApplication sharedApplication] mainWindow];
-            Functions *functions = ((ViewController *) mainWindow.contentViewController).functions;
-            [functions addStringtoLog:@"- Something went wrong, the driver has closed. -\n"];
-            functions.isInitialized = FALSE;
-            functions.isDriverRunning = FALSE;
-        });
-    };
-    
-    
-    for (int i = 0; i < 4; i++) {
-        if (p[0] > 0) {
-            VHIDDevice *VHID = [controllers[i] VHID];
-            [VHID setButton:0  pressed:(p[1] & (1 << 0)) != 0];
-            [VHID setButton:1  pressed:(p[1] & (1 << 1)) != 0];
-            [VHID setButton:2  pressed:(p[1] & (1 << 2)) != 0];
-            [VHID setButton:3  pressed:(p[1] & (1 << 3)) != 0];
-            [VHID setButton:4  pressed:(p[1] & (1 << 4)) != 0];
-            [VHID setButton:5  pressed:(p[1] & (1 << 5)) != 0];
-            [VHID setButton:6  pressed:(p[1] & (1 << 6)) != 0];
-            [VHID setButton:7  pressed:(p[1] & (1 << 7)) != 0];
-            [VHID setButton:8  pressed:(p[2] & (1 << 0)) != 0];
-            [VHID setButton:9  pressed:(p[2] & (1 << 1)) != 0];
-            [VHID setButton:10 pressed:(p[2] & (1 << 2)) != 0];
-            [VHID setButton:11 pressed:(p[2] & (1 << 3)) != 0];
-            
-            stickXRaw = p[3];
-            stickYRaw = p[4];
-
-            stickX = (float) (stickXRaw - stick_middle_x[i]) / (float) stick_max_x[i];
-            stickY = (float) (stickYRaw - stick_middle_y[i]) / (float) stick_max_y[i];
-            point.x = stickX;
-            point.y = stickY;
-            [VHID setPointer:0 position:point];
-            
-            stickXRaw = p[7]; // l-analog (25 to 242)
-            stickYRaw = p[5]; // c-stick x
-            stickX = (float) (stickXRaw - l_middle[i]) / (float) l_max[i];
-            stickY = -(float) (stickYRaw - c_stick_middle_x[i]) / (float) stick_max_x[i];
-            if (i == 0)
-                printf("l/r: %f", stickX);
-            
-            point.x = stickX;
-            point.y = stickY;
-            [VHID setPointer:1 position:point];
-            
-            stickXRaw = p[6];  // c-stick y
-            stickYRaw = p[8];  // r-analog
-            stickX = (float) (stickXRaw - c_stick_middle_y[i]) / (float) stick_max_y[i];
-            stickY = (float) (stickYRaw - r_middle[i]) / (float) r_max[i];
-            if (i == 0)
-                printf(", %f : %i\n", stickY, stickYRaw);
-            point.x = stickX;
-            point.y = stickY;
-            
-            [VHID setPointer:2 position:point];
-        }
-        else {
-            VHIDDevice *VHID = [controllers[i] VHID];
-            point.x = 0;
-            point.y = 0;
-            [VHID setPointer:0 position:point];
-            [VHID setPointer:1 position:point];
-            [VHID setPointer:2 position:point];
-        }
-        p += 9;
-    }
-    libusb_submit_transfer(transfer_in);
-}
 
 - (Gcc *)setup:(int)ind {
     [WJoyDevice prepare];
@@ -124,6 +48,108 @@ void cbin(struct libusb_transfer* transfer) {
 }
 
 @end
+
+
+void cbin(struct libusb_transfer* transfer) {
+    unsigned char * p = in_buffer+1;
+    unsigned char stickXRaw, stickYRaw;
+    float stickX, stickY;
+    NSPoint point = NSZeroPoint;
+    
+    if (transfer -> status > 0){
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSWindow *mainWindow = [[NSApplication sharedApplication] mainWindow];
+            Functions *functions = ((ViewController *) mainWindow.contentViewController).functions;
+            [functions addStringtoLog:@"- Something went wrong, the driver has closed. -\n"];
+            functions.isInitialized = FALSE;
+            functions.isDriverRunning = FALSE;
+        });
+    };
+    
+    
+    for (int i = 0; i < 4; i++) {
+        if (p[0] > 4) {
+            if (!isControllerInserted[i]) {
+                isControllerInserted[i] = TRUE;
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    NSString *string = @""; string = [string stringByAppendingFormat:@"  Controller inserted in port %i.\n", i + 1];
+                    Functions *functions = ((ViewController *) [[NSApplication sharedApplication] mainWindow].contentViewController).functions;
+                    [functions addStringtoLog: string];
+                });
+                [(Gcc*) (controllers[i]) setup:i];
+            }
+            
+            VHIDDevice *VHID = [controllers[i] VHID];
+            [VHID setButton:0  pressed:(p[1] & (1 << 0)) != 0];
+            [VHID setButton:1  pressed:(p[1] & (1 << 1)) != 0];
+            [VHID setButton:2  pressed:(p[1] & (1 << 2)) != 0];
+            [VHID setButton:3  pressed:(p[1] & (1 << 3)) != 0];
+            [VHID setButton:4  pressed:(p[1] & (1 << 4)) != 0];
+            [VHID setButton:5  pressed:(p[1] & (1 << 5)) != 0];
+            [VHID setButton:6  pressed:(p[1] & (1 << 6)) != 0];
+            [VHID setButton:7  pressed:(p[1] & (1 << 7)) != 0];
+            [VHID setButton:8  pressed:(p[2] & (1 << 0)) != 0];
+            [VHID setButton:9  pressed:(p[2] & (1 << 1)) != 0];
+            [VHID setButton:10 pressed:(p[2] & (1 << 2)) != 0];
+            [VHID setButton:11 pressed:(p[2] & (1 << 3)) != 0];
+            
+            stickXRaw = p[3];
+            stickYRaw = p[4];
+            
+            stickX = (float) (stickXRaw - stick_middle_x[i]) / (float) stick_max_x[i];
+            stickY = (float) (stickYRaw - stick_middle_y[i]) / (float) stick_max_y[i];
+            
+            point.x = stickX;
+            point.y = stickY;
+            [VHID setPointer:0 position:point];
+            
+            stickXRaw = p[7]; // l-analog (25 to 242)
+            stickYRaw = p[5]; // c-stick x
+            stickX = (float) (stickXRaw - l_middle[i]) / (float) l_max[i];
+            stickY = -(float) (stickYRaw - c_stick_middle_x[i]) / (float) stick_max_x[i];
+            //if (i == 0)
+            //    printf("l/r: %f", stickX);
+            
+            point.x = stickX;
+            point.y = stickY;
+            [VHID setPointer:1 position:point];
+            
+            stickXRaw = p[6];  // c-stick y
+            stickYRaw = p[8];  // r-analog
+            stickX = (float) (stickXRaw - c_stick_middle_y[i]) / (float) stick_max_y[i];
+            stickY = (float) (stickYRaw - r_middle[i]) / (float) r_max[i];
+            //if (i == 0)
+            //    printf(", %f : %i\n", stickY, stickYRaw);
+            point.x = stickX;
+            point.y = stickY;
+            
+            [VHID setPointer:2 position:point];
+        }
+        else {
+            /* Is controller inserted*/
+            VHIDDevice *VHID = [controllers[i] VHID];
+            point.x = 0;
+            point.y = 0;
+            [VHID setPointer:0 position:point];
+            [VHID setPointer:1 position:point];
+            [VHID setPointer:2 position:point];
+            
+            if (isControllerInserted[i]) {
+                isControllerInserted[i] = FALSE;
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    NSString *string = @""; string = [string stringByAppendingFormat:@"  Controller removed from port %i.\n", i + 1];
+                    Functions *functions = ((ViewController *) [[NSApplication sharedApplication] mainWindow].contentViewController).functions;
+                    [functions addStringtoLog: string];
+                });
+                [(Gcc*) (controllers[i]) remove];
+            }
+            
+        }
+        p += 9;
+    }
+    
+    libusb_submit_transfer(transfer_in);
+}
 
 
 
@@ -162,15 +188,13 @@ void cbin(struct libusb_transfer* transfer) {
     data[0] = 0x13;
     libusb_bulk_transfer(dev_handle, (2 | LIBUSB_ENDPOINT_OUT), data, 1, &actual, 0);
 
-    controllers = @[[[[Gcc alloc] init] setup:0],
-                    [[[Gcc alloc] init] setup:1],
-                    [[[Gcc alloc] init] setup:2],
-                    [[[Gcc alloc] init] setup:3]];
+    controllers = @[[[Gcc alloc] init],
+                    [[Gcc alloc] init],
+                    [[Gcc alloc] init],
+                    [[Gcc alloc] init]];
     
     transfer_in  = libusb_alloc_transfer(0);
-    libusb_fill_bulk_transfer( transfer_in, dev_handle, (1 | LIBUSB_ENDPOINT_IN),
-                              in_buffer,  37,  // Note: in_buffer is where input data is written.
-                              cbin, NULL, 0); // no user data
+    libusb_fill_bulk_transfer(transfer_in, dev_handle, (1 | LIBUSB_ENDPOINT_IN), in_buffer, 37, cbin, NULL, 0);
     r = libusb_submit_transfer(transfer_in);
     
     return 1;
@@ -178,18 +202,25 @@ void cbin(struct libusb_transfer* transfer) {
 
 
 - (void) reset {
-    [controllers[0] remove];
-    [controllers[1] remove];
-    [controllers[2] remove];
-    [controllers[3] remove];
+    [self removeControllers];
     libusb_cancel_transfer(transfer_in);
     libusb_release_interface(dev_handle, 0);
 }
 
+- (void) removeControllers {
+    [controllers[0] remove];
+    [controllers[1] remove];
+    [controllers[2] remove];
+    [controllers[3] remove];
+}
 
 - (void) update {
+    //NSDictionary *properties = @{ WJoyDeviceProductStringKey : ( [NSString stringWithFormat: @"Testtest %@", @[@"1", @"2", @"3", @"4"] [2]] ),
+      //                            WJoyDeviceSerialNumberStringKey : ( [NSString stringWithFormat:@"1%@", @[@"1", @"2", @"3", @"4"] [1]] ) };
+    //NSLog(@"%@",[[controllers[0] virtualDevice] properties]);
     r = libusb_handle_events_completed(ctx, NULL);
 }
+
 
 
 
@@ -240,7 +271,6 @@ void cbin(struct libusb_transfer* transfer) {
             listItems = [stickString componentsSeparatedByString:@"."];
             for (id value in listItems) {
                 int i = [((NSString*) value) intValue];
-                printf("%i, ", i);
                 if(count==0) r_max[0] = i;  if(count==1) r_max[1] = i;  if(count==2) r_max[2] = i;  if(count==3) r_max[3] = i;
                 if(count==4) r_middle[0] = i;  if(count==5) r_middle[1] = i;  if(count==6) r_middle[2] = i;  if(count==7) r_middle[3] = i;
                 if(count==8) l_max[0] = i;  if(count==9) l_max[1] = i;  if(count==10) l_max[2] = i;  if(count==11) l_max[3] = i;
