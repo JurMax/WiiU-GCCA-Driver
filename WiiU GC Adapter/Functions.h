@@ -19,8 +19,10 @@
 @property (nonatomic) bool isInitialized;
 @property (nonatomic) bool isDriverRunning;
 @property (nonatomic) long int driverRunningTime;
-@property (strong, nonatomic) NSString* logString;
-@property (nonatomic) GccManager* gccManager;
+@property (strong, nonatomic) NSString *logString;
+@property (nonatomic) GccManager *gccManager;
+
+@property (nonatomic) int currentCalibration; /* to determine which controller is being calibrated in the calibrationView */
 
 
 - (void) addStringtoLog: (NSString*) string;
@@ -29,5 +31,7 @@
 - (void) startDriver;
 - (void) stopDriver;
 - (void) startProgressBar: (float) seconds;
+- (void) calibrateControllers: (int) tag;
+- (void) validateCalibrateButtons;
 - (ViewController*) getViewController;
 @end

@@ -216,14 +216,26 @@ CA
                             <modifierMask key="keyEquivalentModifierMask"/>
                             <menu key="submenu" title="Calibrate Controllers" id="QCE-6M-1Rw">
                                 <items>
-                                    <menuItem title="Port 1" keyEquivalent="1" id="hM9-rk-pHt">
+                                    <menuItem title="Port 1" tag="1" keyEquivalent="1" id="hM9-rk-pHt">
                                         <connections>
-                                            <action selector="calibratePort1:" target="Voe-Tx-rLC" id="lmU-fQ-2mc"/>
+                                            <action selector="calibrateButtons:" target="Voe-Tx-rLC" id="5UI-vA-05j"/>
                                         </connections>
                                     </menuItem>
-                                    <menuItem title="Port 2" keyEquivalent="2" id="DEP-Tl-2ZV"/>
-                                    <menuItem title="Port 3" keyEquivalent="3" id="PIk-Fs-vRD"/>
-                                    <menuItem title="Port 4" keyEquivalent="4" id="1WB-u2-b73"/>
+                                    <menuItem title="Port 2" tag="2" keyEquivalent="2" id="DEP-Tl-2ZV">
+                                        <connections>
+                                            <action selector="calibrateButtons:" target="Voe-Tx-rLC" id="fnv-AY-nZd"/>
+                                        </connections>
+                                    </menuItem>
+                                    <menuItem title="Port 3" tag="3" keyEquivalent="3" id="PIk-Fs-vRD">
+                                        <connections>
+                                            <action selector="calibrateButtons:" target="Voe-Tx-rLC" id="dxu-Hi-yzs"/>
+                                        </connections>
+                                    </menuItem>
+                                    <menuItem title="Port 4" tag="2" keyEquivalent="4" id="1WB-u2-b73">
+                                        <connections>
+                                            <action selector="calibrateButtons:" target="Voe-Tx-rLC" id="dPK-24-NMn"/>
+                                        </connections>
+                                    </menuItem>
                                 </items>
                             </menu>
                         </menuItem>
@@ -262,11 +274,11 @@ CA
             <objects>
                 <viewController id="XfG-lQ-9wD" customClass="ViewController" sceneMemberID="viewController">
                     <view key="view" wantsLayer="YES" id="m2S-Jp-Qdl">
-                        <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
+                        <rect key="frame" x="0.0" y="0.0" width="480" height="222"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <button verticalHuggingPriority="750" id="ikf-Cj-t1F">
-                                <rect key="frame" x="321" y="189" width="152" height="32"/>
+                                <rect key="frame" x="321" y="133" width="152" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                 <animations/>
                                 <buttonCell key="cell" type="push" title="(re)initialize Adapter" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="axesIndependently" inset="2" id="3nu-di-RlE">
@@ -278,7 +290,7 @@ CA
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" id="9Or-Sv-RcU">
-                                <rect key="frame" x="396" y="222" width="77" height="32"/>
+                                <rect key="frame" x="396" y="174" width="77" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                 <animations/>
                                 <buttonCell key="cell" type="push" title="Stop" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="axesIndependently" inset="2" id="dhQ-EH-49m">
@@ -290,7 +302,7 @@ CA
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" id="Pdx-CC-Sug">
-                                <rect key="frame" x="321" y="222" width="77" height="32"/>
+                                <rect key="frame" x="321" y="174" width="77" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                 <animations/>
                                 <buttonCell key="cell" type="push" title="Start" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="axesIndependently" inset="2" id="9m4-Zb-LTH">
@@ -301,13 +313,13 @@ CA
                                     <action selector="startDriver:" target="XfG-lQ-9wD" id="RQf-0H-Zfl"/>
                                 </connections>
                             </button>
-                            <progressIndicator wantsLayer="YES" maxValue="100" doubleValue="19" style="bar" id="VfW-Gl-boO">
-                                <rect key="frame" x="336" y="169" width="122" height="20"/>
+                            <progressIndicator wantsLayer="YES" maxValue="100" style="bar" id="VfW-Gl-boO">
+                                <rect key="frame" x="336" y="115" width="122" height="20"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                 <animations/>
                             </progressIndicator>
                             <button verticalHuggingPriority="750" id="isC-d6-JLh">
-                                <rect key="frame" x="252" y="14" width="62" height="16"/>
+                                <rect key="frame" x="252" y="2" width="62" height="16"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <animations/>
                                 <buttonCell key="cell" type="push" title="clear log" bezelStyle="rounded" alignment="center" controlSize="mini" borderStyle="border" inset="2" id="NG3-6b-hNu">
@@ -319,21 +331,21 @@ CA
                                 </connections>
                             </button>
                             <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" id="beE-Oi-8dZ">
-                                <rect key="frame" x="20" y="32" width="293" height="218"/>
+                                <rect key="frame" x="20" y="19" width="293" height="183"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <clipView key="contentView" copiesOnScroll="NO" id="aTU-U0-sIu">
-                                    <rect key="frame" x="1" y="1" width="291" height="216"/>
+                                    <rect key="frame" x="1" y="1" width="291" height="181"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <textView editable="NO" importsGraphics="NO" richText="NO" findStyle="panel" continuousSpellChecking="YES" allowsUndo="YES" usesRuler="YES" usesFontPanel="YES" verticallyResizable="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" smartInsertDelete="YES" id="sot-e6-f9O">
-                                            <rect key="frame" x="0.0" y="0.0" width="291" height="216"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="291" height="181"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <animations/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            <size key="minSize" width="291" height="216"/>
+                                            <size key="minSize" width="291" height="181"/>
                                             <size key="maxSize" width="463" height="10000000"/>
                                             <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                            <size key="minSize" width="291" height="216"/>
+                                            <size key="minSize" width="291" height="181"/>
                                             <size key="maxSize" width="463" height="10000000"/>
                                         </textView>
                                     </subviews>
@@ -347,15 +359,81 @@ CA
                                     <animations/>
                                 </scroller>
                                 <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="8SO-eX-XWw">
-                                    <rect key="frame" x="276" y="1" width="16" height="216"/>
+                                    <rect key="frame" x="276" y="1" width="16" height="181"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <animations/>
                                 </scroller>
                             </scrollView>
+                            <button verticalHuggingPriority="750" tag="1" id="DDU-Sr-UUC">
+                                <rect key="frame" x="328" y="59" width="69" height="28"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                                <animations/>
+                                <buttonCell key="cell" type="push" title="Port 1" bezelStyle="rounded" alignment="center" controlSize="small" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="H0o-p0-tko">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="smallSystem"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="calibrateButtons:" target="XfG-lQ-9wD" id="oeq-aI-nk3"/>
+                                    <segue destination="WKp-oK-hta" kind="modal" id="EKw-WT-Eoy"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" tag="2" id="QPZ-qx-xZD">
+                                <rect key="frame" x="394" y="59" width="73" height="28"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                                <animations/>
+                                <buttonCell key="cell" type="push" title="Port 2" bezelStyle="rounded" alignment="center" controlSize="small" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="LcQ-zE-Ow6">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="smallSystem"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="calibrateButtons:" target="XfG-lQ-9wD" id="u5Y-EE-pDu"/>
+                                    <segue destination="WKp-oK-hta" kind="modal" id="SXX-Qt-ZDg"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" tag="3" id="8d5-Be-36g">
+                                <rect key="frame" x="328" y="33" width="69" height="28"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                                <animations/>
+                                <buttonCell key="cell" type="push" title="Port 3" bezelStyle="rounded" alignment="center" controlSize="small" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="j73-Jm-vjo">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="smallSystem"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="calibrateButtons:" target="XfG-lQ-9wD" id="44K-ZO-aZH"/>
+                                    <segue destination="WKp-oK-hta" kind="modal" id="3ii-PE-r9L"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" tag="4" id="ZUQ-w7-65M">
+                                <rect key="frame" x="394" y="33" width="73" height="28"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                                <animations/>
+                                <buttonCell key="cell" type="push" title="Port 4" bezelStyle="rounded" alignment="center" controlSize="small" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="aXN-ql-0fT">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="smallSystem"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="calibrateButtons:" target="XfG-lQ-9wD" id="YzT-Oe-jSw"/>
+                                    <segue destination="WKp-oK-hta" kind="modal" id="FbG-b4-3cK"/>
+                                </connections>
+                            </button>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="aNR-p1-vHH">
+                                <rect key="frame" x="338" y="91" width="118" height="17"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                                <animations/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Controller Settings" id="DjI-0j-RWz">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
                         </subviews>
                         <animations/>
                     </view>
                     <connections>
+                        <outlet property="calibrateButton1" destination="DDU-Sr-UUC" id="mSb-dl-YLu"/>
+                        <outlet property="calibrateButton2" destination="QPZ-qx-xZD" id="oRq-dW-gLV"/>
+                        <outlet property="calibrateButton3" destination="8d5-Be-36g" id="CwI-0d-hWi"/>
+                        <outlet property="calibrateButton4" destination="ZUQ-w7-65M" id="4Ie-D1-1PJ"/>
                         <outlet property="initializeAdapterButton" destination="3nu-di-RlE" id="byd-XD-k6N"/>
                         <outlet property="largeTextView" destination="sot-e6-f9O" id="rJ9-5h-5gN"/>
                         <outlet property="progressBar" destination="VfW-Gl-boO" id="z5v-Yf-hET"/>
@@ -365,7 +443,24 @@ CA
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="75" y="655"/>
+            <point key="canvasLocation" x="75" y="631.5"/>
+        </scene>
+        <!--Calibrate View Controller-->
+        <scene sceneID="Xgd-V1-WK6">
+            <objects>
+                <viewController id="WKp-oK-hta" customClass="CalibrateViewController" sceneMemberID="viewController">
+                    <view key="view" id="pdY-u0-4Qf">
+                        <rect key="frame" x="0.0" y="0.0" width="385" height="214"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <animations/>
+                    </view>
+                </viewController>
+                <customObject id="4MY-Rx-Nmz" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="642.5" y="631"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="SXX-Qt-ZDg"/>
+    </inferredMetricsTieBreakers>
 </document>

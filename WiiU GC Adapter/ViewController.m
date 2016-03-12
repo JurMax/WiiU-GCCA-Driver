@@ -8,6 +8,9 @@
 
 #import "ViewController.h"
 
+@interface ViewController ()
+@end
+
 @implementation ViewController
 @synthesize functions;
 
@@ -39,7 +42,11 @@
     [functions setLogString: @""];
     [_largeTextView setString: @""];
     NSLog(@"Log: *Log cleared*");
-
 }
+
+- (IBAction)calibrateButtons:(NSButton *)sender {
+    [functions calibrateControllers: (int) sender.tag];
+}
+
 
 @end

@@ -14,7 +14,7 @@ struct libusb_transfer *transfer_in = NULL; // IN-comiddleg transfers (IN to hos
 unsigned char in_buffer[38];
 
 NSArray *controllers;
-bool isControllerInserted[4];
+bool isControllerInserted[4] = { FALSE, FALSE, FALSE, FALSE };
 int stick_max_x[4], stick_middle_x[4], stick_max_y[4], stick_middle_y[4];
 int c_stick_max_x[4], c_stick_middle_x[4], c_stick_max_y[4], c_stick_middle_y[4];
 int r_max[4], r_middle[4], l_max[4], l_middle[4];
@@ -30,7 +30,7 @@ int stick_deadzone[4], c_stick_deadzone[4], l_and_r_deadzone[4];
     [WJoyDevice prepare];
     VHID = [[VHIDDevice alloc] initWithType:VHIDDeviceTypeJoystick pointerCount:3 buttonCount:12 isRelative:NO];
     
-    NSDictionary *properties = @{ WJoyDeviceProductStringKey : ( [NSString stringWithFormat: @"WiiU GCC Port  %@", @[@"1", @"2", @"3", @"4"] [ind]] ),
+    NSDictionary *properties = @{ WJoyDeviceProductStringKey : ( [NSString stringWithFormat: @"WiiU GCC Port %@", @[@"1", @"2", @"3", @"4"] [ind]] ),
                                   WJoyDeviceSerialNumberStringKey : ( [NSString stringWithFormat:@"1%@", @[@"1", @"2", @"3", @"4"] [ind]] ) };
     
     virtualDevice = [[WJoyDevice alloc] initWithHIDDescriptor:[VHID descriptor] properties:properties];
@@ -72,9 +72,10 @@ void cbin(struct libusb_transfer* transfer) {
             if (!isControllerInserted[i]) {
                 isControllerInserted[i] = TRUE;
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    NSString *string = @""; string = [string stringByAppendingFormat:@"  Controller detected in port %i.\n", i + 1];
+                    NSString *string = [NSString stringWithFormat: @"  Controller detected in port %i.\n", i + 1];
                     Functions *functions = ((ViewController *) [[NSApplication sharedApplication] mainWindow].contentViewController).functions;
                     [functions addStringtoLog: string];
+                    [functions validateCalibrateButtons];
                 });
                 [(Gcc*) (controllers[i]) setup:i];
             }
@@ -93,33 +94,43 @@ void cbin(struct libusb_transfer* transfer) {
             [VHID setButton:10 pressed:(p[2] & (1 << 2)) != 0];
             [VHID setButton:11 pressed:(p[2] & (1 << 3)) != 0];
             
-            stickXRaw = p[3];
-            stickYRaw = p[4];
             
+            stickXRaw = p[3]; // main stick x
+            stickYRaw = p[4]; // main stick y
+            if (stickXRaw <= stick_middle_x[i] + stick_deadzone[i] && stickXRaw >= stick_middle_x[i] - stick_deadzone[i])
+                stickXRaw = stick_middle_x[i];
+            if (stickYRaw <= stick_middle_y[i] + stick_deadzone[i] || stickYRaw >= stick_middle_y[i] - stick_deadzone[i])
+                stickYRaw = stick_middle_y[i];
             stickX = (float) (stickXRaw - stick_middle_x[i]) / (float) stick_max_x[i];
             stickY = (float) (stickYRaw - stick_middle_y[i]) / (float) stick_max_y[i];
-            
+            if (i == 0)
+                printf("r: %f, %f\n", stickX, stickY);
             point.x = stickX;
             point.y = stickY;
             [VHID setPointer:0 position:point];
             
             stickXRaw = p[7]; // l-analog (25 to 242)
             stickYRaw = p[5]; // c-stick x
+            
+            if (stickXRaw <= l_middle[i] + l_and_r_deadzone[i])
+                stickXRaw = l_middle[i];
+            if (stickYRaw <= c_stick_middle_x[i] + c_stick_deadzone[i] && stickYRaw >= c_stick_middle_x[i] - c_stick_deadzone[i])
+                stickYRaw = c_stick_middle_x[i];
             stickX = (float) (stickXRaw - l_middle[i]) / (float) l_max[i];
             stickY = -(float) (stickYRaw - c_stick_middle_x[i]) / (float) stick_max_x[i];
-            //if (i == 0)
-            //    printf("l/r: %f", stickX);
-            
             point.x = stickX;
             point.y = stickY;
             [VHID setPointer:1 position:point];
             
+            
             stickXRaw = p[6];  // c-stick y
             stickYRaw = p[8];  // r-analog
+            if (stickXRaw <= c_stick_middle_y[i] + c_stick_deadzone[i] && stickYRaw >= c_stick_middle_y[i] - c_stick_deadzone[i])
+                stickXRaw = c_stick_middle_y[i];
+            if (stickYRaw <= r_middle[i] + l_and_r_deadzone[i])
+                stickYRaw = r_middle[i];
             stickX = (float) (stickXRaw - c_stick_middle_y[i]) / (float) stick_max_y[i];
             stickY = (float) (stickYRaw - r_middle[i]) / (float) r_max[i];
-            //if (i == 0)
-            //    printf(", %f : %i\n", stickY, stickYRaw);
             point.x = stickX;
             point.y = stickY;
             [VHID setPointer:2 position:point];
@@ -138,6 +149,7 @@ void cbin(struct libusb_transfer* transfer) {
                     NSString *string = @""; string = [string stringByAppendingFormat:@"  Controller removed from port %i.\n", i + 1];
                     Functions *functions = ((ViewController *) [[NSApplication sharedApplication] mainWindow].contentViewController).functions;
                     [functions addStringtoLog: string];
+                    [functions validateCalibrateButtons];
                 });
                 [(Gcc*) (controllers[i]) remove];
             }
@@ -199,8 +211,11 @@ void cbin(struct libusb_transfer* transfer) {
 
 - (void) reset {
     [self removeControllers];
-    libusb_cancel_transfer(transfer_in);
-    libusb_release_interface(dev_handle, 0);
+    bool isIntialised = ((ViewController *) [[NSApplication sharedApplication] mainWindow].contentViewController).functions.isInitialized;
+    if (isIntialised) {
+        libusb_cancel_transfer(transfer_in);
+        libusb_release_interface(dev_handle, 0);
+    }
 }
 
 - (void) removeControllers {
@@ -215,7 +230,9 @@ void cbin(struct libusb_transfer* transfer) {
     r = libusb_handle_events_completed(ctx, NULL);
 }
 
-
+- (bool) isControllerInserted: (int) i {
+    return isControllerInserted[i];
+}
 
 
 - (void) loadControllerCalibrations {
@@ -272,6 +289,19 @@ void cbin(struct libusb_transfer* transfer) {
                 count++;
             }
             
+            count = 0;
+            stickString = [standardUserDefaults objectForKey:@"deadzones"];
+            listItems = [stickString componentsSeparatedByString:@"."];
+            for (id value in listItems) {
+                int i = [((NSString*) value) intValue];
+                if(count==0) stick_deadzone[0] = i;  if(count==1) stick_deadzone[1] = i;
+                if(count==2) stick_deadzone[2] = i;  if(count==3) stick_deadzone[3] = i;
+                if(count==4) c_stick_deadzone[0] = i;  if(count==5) c_stick_deadzone[1] = i;
+                if(count==6) c_stick_deadzone[2] = i;  if(count==7) c_stick_deadzone[3] = i;
+                if(count==8) l_and_r_deadzone[0] = i;  if(count==9) l_and_r_deadzone[1] = i;
+                if(count==10) l_and_r_deadzone[2] = i;  if(count==11) l_and_r_deadzone[3] = i;
+                count++;
+            }
         } else {
             [((ViewController *) [[NSApplication sharedApplication] mainWindow].contentViewController).functions addStringtoLog:@"  No controller calibrations found, using defaults."];
             [self loadDefaultCalibrations];
@@ -305,11 +335,10 @@ void cbin(struct libusb_transfer* transfer) {
         values = [NSString stringWithFormat:@"%@.%@.%@.%@", maxx, middlex, maxy, middley];
         [standardUserDefaults setObject:values forKey:@"l_and_r"];
         
-        maxx = [NSString stringWithFormat:@"%i.%i.%i.%i", r_max[0], r_max[1], r_max[2], r_max[3]];
-        middlex = [NSString stringWithFormat:@"%i.%i.%i.%i", r_middle[0], r_middle[1], r_middle[2], r_middle[3]];
-        maxy = [NSString stringWithFormat:@"%i.%i.%i.%i", l_max[0], l_max[1], l_max[2], l_max[3]];
-        middley = [NSString stringWithFormat:@"%i.%i.%i.%i", l_middle[0], l_middle[1], l_middle[2], l_middle[3]];
-        values = [NSString stringWithFormat:@"%@.%@.%@.%@", maxx, middlex, maxy, middley];
+        maxx = [NSString stringWithFormat:@"%i.%i.%i.%i", stick_deadzone[0], stick_deadzone[1], stick_deadzone[2], stick_deadzone[3]];
+        middlex = [NSString stringWithFormat:@"%i.%i.%i.%i", c_stick_deadzone[0], c_stick_deadzone[1], c_stick_deadzone[2], c_stick_deadzone[3]];
+        maxy = [NSString stringWithFormat:@"%i.%i.%i.%i", l_and_r_deadzone[0], l_and_r_deadzone[1], l_and_r_deadzone[2], l_and_r_deadzone[3]];
+        values = [NSString stringWithFormat:@"%@.%@.%@", maxx, middlex, maxy];
         [standardUserDefaults setObject:values forKey:@"deadzones"];
         
         [standardUserDefaults synchronize];
@@ -327,6 +356,10 @@ void cbin(struct libusb_transfer* transfer) {
         
         l_max[i] = 200; l_middle[i] = 23;
         r_max[i] = 212; r_middle[i] = 22;
+        
+        stick_deadzone[i] = 3;
+        c_stick_deadzone[i] = 3;
+        l_and_r_deadzone[i] = 3;
     }
     
     [self saveControllerCalibrations];

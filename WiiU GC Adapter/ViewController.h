@@ -14,17 +14,20 @@
 
 @class Functions;
 
+
 @interface ViewController : NSViewController
 
 @property (weak) IBOutlet NSProgressIndicator *progressBar;
-@property (strong, nonatomic) IBOutlet NSTextField *TextField;
-
 @property (strong, nonatomic) IBOutlet NSTextView *largeTextView;
 
 @property (weak) IBOutlet NSButtonCell *startButton;
 @property (weak) IBOutlet NSButtonCell *stopButton;
 @property (weak) IBOutlet NSButtonCell *initializeAdapterButton;
 
+@property (weak) IBOutlet NSButton *calibrateButton1;
+@property (weak) IBOutlet NSButton *calibrateButton2;
+@property (weak) IBOutlet NSButton *calibrateButton3;
+@property (weak) IBOutlet NSButton *calibrateButton4;
 
 @property NSString *string;
 @property Functions *functions;

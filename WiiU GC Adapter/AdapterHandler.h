@@ -33,6 +33,7 @@
 - (void) reset;
 - (void) removeControllers;
 - (void) update;
+- (bool) isControllerInserted: (int) i;
 
 - (void) loadControllerCalibrations;
 - (void) saveControllerCalibrations;

@@ -16,6 +16,7 @@
 		E48B7BAE1C7A05FB00A59E49 /* switchIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = E48B7BAD1C7A05FB00A59E49 /* switchIcon.png */; settings = {ASSET_TAGS = (); }; };
 		E48B7BB21C7A075200A59E49 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E4DFE1231C78E8E100C45228 /* AppDelegate.m */; };
 		E48B7BB41C7A0B3700A59E49 /* Functions.m in Sources */ = {isa = PBXBuildFile; fileRef = E48B7BB31C7A0B3700A59E49 /* Functions.m */; settings = {ASSET_TAGS = (); }; };
+		E4DD9D161C943BA200A0479E /* CalibrateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E4DD9D151C943BA200A0479E /* CalibrateViewController.m */; settings = {ASSET_TAGS = (); }; };
 		E4DFE12A1C78E8E100C45228 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E4DFE1291C78E8E100C45228 /* ViewController.m */; };
 		E4DFE12C1C78E8E100C45228 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E4DFE12B1C78E8E100C45228 /* Assets.xcassets */; };
 		E4DFE12F1C78E8E100C45228 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E4DFE12D1C78E8E100C45228 /* Main.storyboard */; };
@@ -48,6 +49,8 @@
 		E48B7BB31C7A0B3700A59E49 /* Functions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Functions.m; sourceTree = "<group>"; };
 		E48B7BB51C7A0B4800A59E49 /* Functions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Functions.h; sourceTree = "<group>"; };
 		E4DD9D111C933E3700A0479E /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		E4DD9D141C943BA200A0479E /* CalibrateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalibrateViewController.h; sourceTree = "<group>"; };
+		E4DD9D151C943BA200A0479E /* CalibrateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalibrateViewController.m; sourceTree = "<group>"; };
 		E4DFE1201C78E8E000C45228 /* WiiU GC Adapter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "WiiU GC Adapter.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4DFE1221C78E8E000C45228 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		E4DFE1231C78E8E100C45228 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -134,6 +137,8 @@
 				E4DFE1231C78E8E100C45228 /* AppDelegate.m */,
 				E4DFE1281C78E8E100C45228 /* ViewController.h */,
 				E4DFE1291C78E8E100C45228 /* ViewController.m */,
+				E4DD9D141C943BA200A0479E /* CalibrateViewController.h */,
+				E4DD9D151C943BA200A0479E /* CalibrateViewController.m */,
 			);
 			name = "Window Files";
 			sourceTree = "<group>";
@@ -209,6 +214,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E4DD9D161C943BA200A0479E /* CalibrateViewController.m in Sources */,
 				E4DFE12A1C78E8E100C45228 /* ViewController.m in Sources */,
 				E48B7BB21C7A075200A59E49 /* AppDelegate.m in Sources */,
 				E48B7BB41C7A0B3700A59E49 /* Functions.m in Sources */,

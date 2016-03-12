@@ -40,19 +40,12 @@
                     [mainWindow setReleasedWhenClosed:NO];
                     [mainWindow setLevel:NSModalPanelWindowLevel];
                     [mainWindow setCollectionBehavior: NSWindowCollectionBehaviorCanJoinAllSpaces];
+                    ViewController *viewController = (ViewController *) mainWindow.contentViewController;
+                    [viewController.functions validateCalibrateButtons];
                 });
             }
         }
     });
-}
-
-
-- (void)applicationWillTerminate:(NSNotification *)aNotification {
-    ViewController *viewController = (ViewController *) mainWindow.contentViewController;
-    [viewController.functions stopDriver];
-    [viewController.functions.gccManager reset];
-
-    NSLog(@"Quiting...");
 }
 
 
@@ -65,12 +58,19 @@
             item.title = @"Open Window";
         }
         return TRUE;
-    }
-    else if ([item.title isEqual: @"Start"]) {
+    } else if ([item.title isEqual: @"Start"]) {
         return viewController.startButton.enabled;
-    }
-    else if ([item.title isEqual: @"Stop"]) {
+    } else if ([item.title isEqual: @"Stop"]) {
         return viewController.stopButton.enabled;
+    }
+    else if ([item.title isEqual: @"Port 1"]) {
+        return [viewController.functions.gccManager isControllerInserted: 0];
+    } else if ([item.title isEqual: @"Port 2"]) {
+        return [viewController.functions.gccManager isControllerInserted: 1];
+    } else if ([item.title isEqual: @"Port 3"]) {
+        return [viewController.functions.gccManager isControllerInserted: 2];
+    } else if ([item.title isEqual: @"Port 4"]) {
+        return [viewController.functions.gccManager isControllerInserted: 3];
     }
     return TRUE;
 }
@@ -93,6 +93,10 @@
 }
 
 - (IBAction)quitApplication:(id)sender {
+    ViewController *viewController = (ViewController *) mainWindow.contentViewController;
+    [viewController.functions addStringtoLog:@"Quiting..."];
+    [viewController.functions stopDriver];
+    [viewController.functions.gccManager reset];
     exit(0);
 }
 
@@ -112,5 +116,11 @@
     printf("w: %f,  h: %f", width, height);
     [((ViewController *) mainWindow.contentViewController).functions.gccManager restoreDefaultCalibrations];
 }
+
+- (IBAction)calibrateButtons:(NSMenuItem *)sender {
+    ViewController *viewController = (ViewController *) mainWindow.contentViewController;
+    [viewController.functions calibrateControllers: (int) sender.tag];
+}
+
 
 @end

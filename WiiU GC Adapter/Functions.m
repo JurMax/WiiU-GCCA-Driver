@@ -15,6 +15,7 @@
 @synthesize driverRunningTime;
 @synthesize logString;
 @synthesize gccManager;
+@synthesize currentCalibration;
 -(id)init {
     if (self = [super init]) {
         isInitialized = FALSE;
@@ -22,11 +23,13 @@
         driverRunningTime = 0;
         logString = @"";
         gccManager = [[GccManager alloc] init];
+        currentCalibration = 0;
     }
     return self;
 }
 
-bool isClosed = TRUE;
+bool isDriverClosed = TRUE;
+
 
 - (void) addStringtoLog: (NSString*) string {
     NSLog(@"Log: %@", string);
@@ -67,16 +70,19 @@ bool isClosed = TRUE;
 - (void) stopDriver {
     isDriverRunning = FALSE;
     
-    while (!isClosed) {}; /* make sure the driver isn't running */
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        [gccManager removeControllers];
-    });
+    if (isInitialized) {
+        while (!isDriverClosed) {}; /* make sure the driver isn't running */
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+            [gccManager removeControllers];
+        });
     
-    long int time = ([[NSDate date] timeIntervalSince1970] - driverRunningTime) * 1000;
-    NSString *string = [NSString stringWithFormat: @"- Driver closed. (%li ms) -\n\n", time];
-    [self addStringtoLog: string];
-    [self getViewController].startButton.enabled = YES;
-    [self getViewController].stopButton.enabled = NO;
+        long int time = ([[NSDate date] timeIntervalSince1970] - driverRunningTime) * 1000;
+        NSString *string = [NSString stringWithFormat: @"- Driver closed. (%li ms) -\n\n", time];
+        [self addStringtoLog: string];
+        [self getViewController].startButton.enabled = YES;
+        [self getViewController].stopButton.enabled = NO;
+        [self validateCalibrateButtons];
+    }
 }
 
 
@@ -91,10 +97,10 @@ bool isClosed = TRUE;
     isDriverRunning = TRUE;
     driverRunningTime = [[NSDate date] timeIntervalSince1970];
     while (isDriverRunning) {
-        isClosed = FALSE;
+        isDriverClosed = FALSE;
         [gccManager update];
     }
-    isClosed = TRUE;
+    isDriverClosed = TRUE;
 }
 
 
@@ -119,7 +125,7 @@ bool isClosed = TRUE;
     });
     
     if (isInitialized) {
-        while (!isClosed) {};
+        while (!isDriverClosed) {};
         isInitialized = false;
         [gccManager reset];
     }
@@ -130,6 +136,7 @@ bool isClosed = TRUE;
         if (i == 1) {
             isInitialized = TRUE;
             [self addStringtoLog:@"  Adapter initialised. \n"];
+            [self validateCalibrateButtons];
         } else {
             isInitialized = FALSE;
             [self addStringtoLog:@"- WiiU GCC adapter not detected! -\n"];
@@ -172,6 +179,18 @@ bool isClosed = TRUE;
     });
 }
 
+
+- (void) calibrateControllers: (int) tag {
+    currentCalibration = tag - 1;
+    [self validateCalibrateButtons];
+}
+
+- (void) validateCalibrateButtons {
+    [self getViewController].calibrateButton1.enabled = TRUE; //[gccManager isControllerInserted:0];
+    [self getViewController].calibrateButton2.enabled = [gccManager isControllerInserted:1];
+    [self getViewController].calibrateButton3.enabled = [gccManager isControllerInserted:2];
+    [self getViewController].calibrateButton4.enabled = [gccManager isControllerInserted:3];
+}
 
 
 - (ViewController*) getViewController {
