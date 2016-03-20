@@ -13,11 +13,13 @@
 #import "libusb.h"
 #import "Functions.h"
 #import "ViewController.h"
+#import "OptionsViewController.h"
 
 #ifndef AdapterHandler_h
 #define AdapterHandler_h
 
 @class Functions;
+@class OptionsViewController;
 
 @interface Gcc : NSObject <VHIDDeviceDelegate>
 @property (strong, nonatomic) VHIDDevice *VHID;
@@ -34,6 +36,8 @@
 - (void) removeControllers;
 - (void) update;
 - (bool) isControllerInserted: (int) i;
+
+- (void) fillOptionsView: (OptionsViewController *) view;
 
 - (void) loadControllerCalibrations;
 - (void) saveControllerCalibrations;

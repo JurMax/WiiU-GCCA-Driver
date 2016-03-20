@@ -22,7 +22,8 @@
 @property (strong, nonatomic) NSString *logString;
 @property (nonatomic) GccManager *gccManager;
 
-@property (nonatomic) int currentCalibration; /* to determine which controller is being calibrated in the calibrationView */
+@property (nonatomic) int currentPortSettings; /* to determine which controller is being edited in the optionsView */
+@property (nonatomic) bool advancedSettings;
 
 
 - (void) addStringtoLog: (NSString*) string;

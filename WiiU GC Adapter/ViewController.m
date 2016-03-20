@@ -14,38 +14,41 @@
 @implementation ViewController
 @synthesize functions;
 
-- (void)viewDidLoad {
+- (void) viewDidLoad {
     [super viewDidLoad];
     functions = [[Functions alloc] init];
 }
 
-- (void)setRepresentedObject:(id)representedObject {
+- (void) setRepresentedObject:(id) representedObject {
     [super setRepresentedObject:representedObject];
 }
 
 
-- (IBAction)initializeAdapter:(NSButton *)sender {
+- (IBAction) initializeAdapter:(NSButton *) sender {
     [functions initializeAdapterOnly];
 }
 
-- (IBAction)startDriver:(NSButton *)sender {
+- (IBAction) startDriver:(NSButton *) sender {
     [functions startDriver];
 }
 
 
-- (IBAction)stopDriver:(NSButton *)sender {
+- (IBAction) stopDriver:(NSButton *) sender {
     [functions stopDriver];
 }
 
-- (IBAction)clearLog:(NSButton *)sender {
-    
+- (IBAction) clearLog:(NSButton *) sender {
     [functions setLogString: @""];
     [_largeTextView setString: @""];
     NSLog(@"Log: *Log cleared*");
 }
 
-- (IBAction)calibrateButtons:(NSButton *)sender {
-    [functions calibrateControllers: (int) sender.tag];
+
+- (IBAction) openPortSettings:(NSButton *) sender {
+    functions.advancedSettings = !_advancedSettings.state;
+
+    functions.currentPortSettings = (int) (sender.tag - 1);
+    //[self performSegueWithIdentifier:@"optionsSegue" sender:self];
 }
 
 

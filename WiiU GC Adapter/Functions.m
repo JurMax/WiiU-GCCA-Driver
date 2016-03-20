@@ -15,7 +15,8 @@
 @synthesize driverRunningTime;
 @synthesize logString;
 @synthesize gccManager;
-@synthesize currentCalibration;
+@synthesize currentPortSettings;
+@synthesize advancedSettings;
 -(id)init {
     if (self = [super init]) {
         isInitialized = FALSE;
@@ -23,7 +24,8 @@
         driverRunningTime = 0;
         logString = @"";
         gccManager = [[GccManager alloc] init];
-        currentCalibration = 0;
+        currentPortSettings = -1;
+        advancedSettings = FALSE;
     }
     return self;
 }
@@ -181,12 +183,11 @@ bool isDriverClosed = TRUE;
 
 
 - (void) calibrateControllers: (int) tag {
-    currentCalibration = tag - 1;
-    [self validateCalibrateButtons];
+    currentPortSettings = tag - 1;
 }
 
 - (void) validateCalibrateButtons {
-    [self getViewController].calibrateButton1.enabled = TRUE; //[gccManager isControllerInserted:0];
+    [self getViewController].calibrateButton1.enabled = [gccManager isControllerInserted:0];
     [self getViewController].calibrateButton2.enabled = [gccManager isControllerInserted:1];
     [self getViewController].calibrateButton3.enabled = [gccManager isControllerInserted:2];
     [self getViewController].calibrateButton4.enabled = [gccManager isControllerInserted:3];

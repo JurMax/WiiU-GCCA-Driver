@@ -19,7 +19,7 @@ int stick_max_x[4], stick_middle_x[4], stick_max_y[4], stick_middle_y[4];
 int c_stick_max_x[4], c_stick_middle_x[4], c_stick_max_y[4], c_stick_middle_y[4];
 int r_max[4], r_middle[4], l_max[4], l_middle[4];
 int stick_deadzone[4], c_stick_deadzone[4], l_and_r_deadzone[4];
-
+bool disable_l_and_r[4] = { TRUE, TRUE, TRUE, TRUE };
 
 
 @implementation Gcc
@@ -97,17 +97,18 @@ void cbin(struct libusb_transfer* transfer) {
             
             stickXRaw = p[3]; // main stick x
             stickYRaw = p[4]; // main stick y
+            
             if (stickXRaw <= stick_middle_x[i] + stick_deadzone[i] && stickXRaw >= stick_middle_x[i] - stick_deadzone[i])
                 stickXRaw = stick_middle_x[i];
-            if (stickYRaw <= stick_middle_y[i] + stick_deadzone[i] || stickYRaw >= stick_middle_y[i] - stick_deadzone[i])
+            if (stickYRaw <= stick_middle_y[i] + stick_deadzone[i] && stickYRaw >= stick_middle_y[i] - stick_deadzone[i])
                 stickYRaw = stick_middle_y[i];
             stickX = (float) (stickXRaw - stick_middle_x[i]) / (float) stick_max_x[i];
             stickY = (float) (stickYRaw - stick_middle_y[i]) / (float) stick_max_y[i];
-            if (i == 0)
-                printf("r: %f, %f\n", stickX, stickY);
+            
             point.x = stickX;
             point.y = stickY;
             [VHID setPointer:0 position:point];
+            
             
             stickXRaw = p[7]; // l-analog (25 to 242)
             stickYRaw = p[5]; // c-stick x
@@ -118,6 +119,9 @@ void cbin(struct libusb_transfer* transfer) {
                 stickYRaw = c_stick_middle_x[i];
             stickX = (float) (stickXRaw - l_middle[i]) / (float) l_max[i];
             stickY = -(float) (stickYRaw - c_stick_middle_x[i]) / (float) stick_max_x[i];
+            if (disable_l_and_r[i])
+                stickX = 0.0;
+            
             point.x = stickX;
             point.y = stickY;
             [VHID setPointer:1 position:point];
@@ -131,6 +135,9 @@ void cbin(struct libusb_transfer* transfer) {
                 stickYRaw = r_middle[i];
             stickX = (float) (stickXRaw - c_stick_middle_y[i]) / (float) stick_max_y[i];
             stickY = (float) (stickYRaw - r_middle[i]) / (float) r_max[i];
+            if (disable_l_and_r[i])
+                stickY = 0.0;
+            
             point.x = stickX;
             point.y = stickY;
             [VHID setPointer:2 position:point];
@@ -357,9 +364,9 @@ void cbin(struct libusb_transfer* transfer) {
         l_max[i] = 200; l_middle[i] = 23;
         r_max[i] = 212; r_middle[i] = 22;
         
-        stick_deadzone[i] = 3;
-        c_stick_deadzone[i] = 3;
-        l_and_r_deadzone[i] = 3;
+        stick_deadzone[i] = 5;
+        c_stick_deadzone[i] = 30;
+        l_and_r_deadzone[i] = 5;
     }
     
     [self saveControllerCalibrations];
@@ -375,6 +382,13 @@ void cbin(struct libusb_transfer* transfer) {
     
     [self loadDefaultCalibrations];
     [self saveControllerCalibrations];
+}
+
+
+- (void) fillOptionsView: (OptionsViewController *) view {
+    //int port = view.currentPort;
+    
+    
 }
 
 @end

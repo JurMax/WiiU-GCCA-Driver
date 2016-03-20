@@ -29,6 +29,9 @@
 @property (weak) IBOutlet NSButton *calibrateButton3;
 @property (weak) IBOutlet NSButton *calibrateButton4;
 
+@property (weak) IBOutlet NSButton *advancedSettings;
+
+
 @property NSString *string;
 @property Functions *functions;
 
