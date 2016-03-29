@@ -26,6 +26,8 @@
         gccManager = [[GccManager alloc] init];
         currentPortSettings = -1;
         advancedSettings = FALSE;
+        
+        [gccManager loadControllerCalibrations];
     }
     return self;
 }
@@ -53,8 +55,6 @@ bool isDriverClosed = TRUE;
     
     if (!isInitialized) {
         [self addStringtoLog: @"- Starting driver. -\n"];
-        
-        [gccManager loadControllerCalibrations];
         
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
             [self initializeAdapter];

@@ -38,8 +38,8 @@
                 dispatch_async(dispatch_get_main_queue(), ^{
                     mainWindow = [[NSApplication sharedApplication] mainWindow];
                     [mainWindow setReleasedWhenClosed:NO];
-                    [mainWindow setLevel:NSModalPanelWindowLevel];
-                    [mainWindow setCollectionBehavior: NSWindowCollectionBehaviorCanJoinAllSpaces];
+                    //[mainWindow setLevel:NSModalPanelWindowLevel];
+                    //[mainWindow setCollectionBehavior: NSWindowCollectionBehaviorCanJoinAllSpaces];
                     ViewController *viewController = (ViewController *) mainWindow.contentViewController;
                     [viewController.functions validateCalibrateButtons];
                 });
@@ -95,6 +95,7 @@
 - (IBAction)quitApplication:(id)sender {
     ViewController *viewController = (ViewController *) mainWindow.contentViewController;
     [viewController.functions addStringtoLog:@"Quiting..."];
+    [[viewController.functions gccManager] saveControllerCalibrations];
     [viewController.functions stopDriver];
     [viewController.functions.gccManager reset];
     exit(0);
@@ -105,6 +106,7 @@
         [mainWindow close];
     } else {
         [mainWindow makeKeyAndOrderFront:nil];
+        [NSApp activateIgnoringOtherApps:YES];
     }
 }
 

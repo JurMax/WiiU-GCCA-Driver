@@ -13,6 +13,7 @@
 
 @implementation ViewController
 @synthesize functions;
+@synthesize advancedSettings;
 
 - (void) viewDidLoad {
     [super viewDidLoad];
@@ -45,10 +46,10 @@
 
 
 - (IBAction) openPortSettings:(NSButton *) sender {
-    functions.advancedSettings = !_advancedSettings.state;
+    functions.advancedSettings = !advancedSettings.state;
 
     functions.currentPortSettings = (int) (sender.tag - 1);
-    //[self performSegueWithIdentifier:@"optionsSegue" sender:self];
+    [self performSegueWithIdentifier:@"optionsSegue" sender:self];
 }
 
 

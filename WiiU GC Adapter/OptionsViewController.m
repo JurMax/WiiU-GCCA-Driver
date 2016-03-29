@@ -15,52 +15,81 @@
 @implementation OptionsViewController
 @synthesize functions;
 @synthesize currentPort;
+@synthesize advancedOptions;
+
+ViewController *mainViewController;
 
 - (void) viewDidLoad {
     [super viewDidLoad];
 
-    ViewController *mainViewController =  (ViewController *) [[NSApplication sharedApplication] mainWindow].contentViewController;
+    mainViewController =  (ViewController *) [[NSApplication sharedApplication] mainWindow].contentViewController;
 
     functions = mainViewController.functions;
     currentPort = functions.currentPortSettings;
     
     NSString *string = [NSString stringWithFormat:@"Port %i Options", currentPort + 1];
     [self setTitle: string];
-
     
     [functions.gccManager fillOptionsView: self];
-
+    
+    
+    advancedOptions = !mainViewController.advancedSettings.state;
+    _disclosureButton.state = advancedOptions;
     dispatch_async(dispatch_get_global_queue (DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        while (_stickRoundText.layer.cornerRadius != 30 || _cstickRoundText.layer.cornerRadius != 25 || TRUE) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                _stickRoundText.layer.cornerRadius = 30;
-                _cstickRoundText.layer.cornerRadius = 25;
-                //printf("%f\n", _stickRoundText.layer.cornerRadius);
-            });
-        }
+        while (!self.isViewLoaded) {}
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self setWindowSize: NO];
+        });
     });
 }
 
 
-- (IBAction) closeButton:(NSButton *) sender {
-    [self dismissViewController: self];
+- (IBAction)calibrateButton:(NSButton *)sender {
+    NSLog(@"calibrating port %i\n", [functions currentPortSettings]);
 }
 
 
-- (IBAction) valueChanged:(NSTextField *) sender {
-    printf("int: %i\n", [sender intValue]);
+- (IBAction)loadDefaultsButton:(NSButton *)sender {
+    [[functions gccManager] loadDefaultCalibrations];
+    [[functions gccManager] fillOptionsView:self];
+}
+
+
+- (IBAction)valueChanged:(NSTextField *)sender {
     NSString *string = [NSString stringWithFormat:@"%i", [sender intValue]];
+    if ([sender intValue] < 0)  /* make positive */
+        string = [string substringFromIndex:1];
+    
     [sender setStringValue: string];
-    //sender.stringValue;
+    [[functions gccManager] loadFromOptionsView:self];
 }
 
-- (IBAction)test:(NSButtonCell *)sender {
-    NSPoint frame =_text.frame.origin;
-    frame.x += 5;
-    [_text setFrameOrigin:frame];
-    //[_stickRoundText setString: string];
-    //_stickRoundText.layer.cornerRadius = 30;
+
+- (IBAction)disclosureButton:(NSButton *)sender {
+    advancedOptions = sender.state;
+    [self setWindowSize: YES];
+    mainViewController.advancedSettings.state = !advancedOptions;
 }
 
+
+- (IBAction)checkBoxOptions:(NSButton *)sender {
+    [[functions gccManager] loadFromOptionsView:self];
+}
+
+
+- (void) setWindowSize:(bool) animation {
+    NSRect frame = [[[self view] window] frame];
+    int height;
+    if (advancedOptions) {
+        height = 298;
+    } else {
+        height = 164;
+    }
+    frame.origin.y += frame.size.height;
+    frame.origin.y -= height;
+    frame.size.height = height;
+    
+    [[[self view] window] setFrame: frame display: YES animate: animation];
+}
 
 @end

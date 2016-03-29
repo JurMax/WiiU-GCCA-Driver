@@ -15,11 +15,15 @@ unsigned char in_buffer[38];
 
 NSArray *controllers;
 bool isControllerInserted[4] = { FALSE, FALSE, FALSE, FALSE };
+
+bool disable_l_analog[4];
+bool disable_r_analog[4];
+bool disableDeadzones[4];
+bool disableSticks[4];
 int stick_max_x[4], stick_middle_x[4], stick_max_y[4], stick_middle_y[4];
 int c_stick_max_x[4], c_stick_middle_x[4], c_stick_max_y[4], c_stick_middle_y[4];
 int r_max[4], r_middle[4], l_max[4], l_middle[4];
-int stick_deadzone[4], c_stick_deadzone[4], l_and_r_deadzone[4];
-bool disable_l_and_r[4] = { TRUE, TRUE, TRUE, TRUE };
+int stick_deadzone_x[4], stick_deadzone_y[4], c_stick_deadzone_x[4], c_stick_deadzone_y[4], l_deadzone[4], r_deadzone[4];
 
 
 @implementation Gcc
@@ -60,9 +64,9 @@ void cbin(struct libusb_transfer* transfer) {
         printf("asdf\n");
         dispatch_async(dispatch_get_main_queue(), ^{
             Functions *functions = ((ViewController *) [[NSApplication sharedApplication] mainWindow].contentViewController).functions;
-            [functions addStringtoLog:@"- Something went wrong, the driver has closed. -\n"];
-            functions.isInitialized = FALSE;
+            [functions addStringtoLog:@"- Something went wrong, the driver will close. -\n"];
             [functions stopDriver];
+            functions.isInitialized = FALSE;
         });
     };
     
@@ -94,34 +98,37 @@ void cbin(struct libusb_transfer* transfer) {
             [VHID setButton:10 pressed:(p[2] & (1 << 2)) != 0];
             [VHID setButton:11 pressed:(p[2] & (1 << 3)) != 0];
             
+            bool f = !disableDeadzones[i];
             
             stickXRaw = p[3]; // main stick x
             stickYRaw = p[4]; // main stick y
-            
-            if (stickXRaw <= stick_middle_x[i] + stick_deadzone[i] && stickXRaw >= stick_middle_x[i] - stick_deadzone[i])
+            if (stickXRaw <= stick_middle_x[i] + stick_deadzone_x[i] && stickXRaw >= stick_middle_x[i] - stick_deadzone_x[i] && f)
                 stickXRaw = stick_middle_x[i];
-            if (stickYRaw <= stick_middle_y[i] + stick_deadzone[i] && stickYRaw >= stick_middle_y[i] - stick_deadzone[i])
+            if (stickYRaw <= stick_middle_y[i] + stick_deadzone_y[i] && stickYRaw >= stick_middle_y[i] - stick_deadzone_y[i] && f)
                 stickYRaw = stick_middle_y[i];
             stickX = (float) (stickXRaw - stick_middle_x[i]) / (float) stick_max_x[i];
             stickY = (float) (stickYRaw - stick_middle_y[i]) / (float) stick_max_y[i];
-            
             point.x = stickX;
             point.y = stickY;
+            if (disableSticks[i]) {
+                stickX = 0.0;
+                stickY = 0.0;
+            }
             [VHID setPointer:0 position:point];
             
             
             stickXRaw = p[7]; // l-analog (25 to 242)
             stickYRaw = p[5]; // c-stick x
-            
-            if (stickXRaw <= l_middle[i] + l_and_r_deadzone[i])
+            if (stickXRaw <= l_middle[i] + l_deadzone[i] && f)
                 stickXRaw = l_middle[i];
-            if (stickYRaw <= c_stick_middle_x[i] + c_stick_deadzone[i] && stickYRaw >= c_stick_middle_x[i] - c_stick_deadzone[i])
+            if (stickYRaw <= c_stick_middle_x[i] + c_stick_deadzone_x[i] && stickYRaw >= c_stick_middle_x[i] - c_stick_deadzone_x[i] && f)
                 stickYRaw = c_stick_middle_x[i];
             stickX = (float) (stickXRaw - l_middle[i]) / (float) l_max[i];
             stickY = -(float) (stickYRaw - c_stick_middle_x[i]) / (float) stick_max_x[i];
-            if (disable_l_and_r[i])
+            if (disable_l_analog[i])
                 stickX = 0.0;
-            
+            if (disableSticks[i])
+                stickY = 0.0;
             point.x = stickX;
             point.y = stickY;
             [VHID setPointer:1 position:point];
@@ -129,20 +136,23 @@ void cbin(struct libusb_transfer* transfer) {
             
             stickXRaw = p[6];  // c-stick y
             stickYRaw = p[8];  // r-analog
-            if (stickXRaw <= c_stick_middle_y[i] + c_stick_deadzone[i] && stickYRaw >= c_stick_middle_y[i] - c_stick_deadzone[i])
+            if (stickXRaw <= c_stick_middle_y[i] + c_stick_deadzone_y[i] && stickYRaw >= c_stick_middle_y[i] - c_stick_deadzone_y[i] && f)
                 stickXRaw = c_stick_middle_y[i];
-            if (stickYRaw <= r_middle[i] + l_and_r_deadzone[i])
+            if (stickYRaw <= r_middle[i] + r_deadzone[i] && f)
                 stickYRaw = r_middle[i];
             stickX = (float) (stickXRaw - c_stick_middle_y[i]) / (float) stick_max_y[i];
             stickY = (float) (stickYRaw - r_middle[i]) / (float) r_max[i];
-            if (disable_l_and_r[i])
+            if (disableSticks[i])
+                stickX = 0.0;
+            if (disable_r_analog[i])
                 stickY = 0.0;
-            
             point.x = stickX;
             point.y = stickY;
             [VHID setPointer:2 position:point];
+            
         }
         else {
+            
             VHIDDevice *VHID = [controllers[i] VHID];
             point.x = 0;
             point.y = 0;
@@ -243,10 +253,9 @@ void cbin(struct libusb_transfer* transfer) {
 
 
 - (void) loadControllerCalibrations {
-
+    
     NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
     NSString *stickString;
-    
     if (standardUserDefaults) {
         stickString = [standardUserDefaults objectForKey:@"stick"];
         short int count;
@@ -289,10 +298,14 @@ void cbin(struct libusb_transfer* transfer) {
             listItems = [stickString componentsSeparatedByString:@"."];
             for (id value in listItems) {
                 int i = [((NSString*) value) intValue];
-                if(count==0) r_max[0] = i;  if(count==1) r_max[1] = i;  if(count==2) r_max[2] = i;  if(count==3) r_max[3] = i;
-                if(count==4) r_middle[0] = i;  if(count==5) r_middle[1] = i;  if(count==6) r_middle[2] = i;  if(count==7) r_middle[3] = i;
-                if(count==8) l_max[0] = i;  if(count==9) l_max[1] = i;  if(count==10) l_max[2] = i;  if(count==11) l_max[3] = i;
-                if(count==12) l_middle[0] = i;  if(count==13) l_middle[1] = i;  if(count==14) l_middle[2] = i;  if(count==15) l_middle[3] = i;
+                if(count==0) r_max[0] = i;  if(count==1) r_max[1] = i;
+                if(count==2) r_max[2] = i;  if(count==3) r_max[3] = i;
+                if(count==4) r_middle[0] = i;  if(count==5) r_middle[1] = i;
+                if(count==6) r_middle[2] = i;  if(count==7) r_middle[3] = i;
+                if(count==8) l_max[0] = i;  if(count==9) l_max[1] = i;
+                if(count==10) l_max[2] = i;  if(count==11) l_max[3] = i;
+                if(count==12) l_middle[0] = i;  if(count==13) l_middle[1] = i;
+                if(count==14) l_middle[2] = i;  if(count==15) l_middle[3] = i;
                 count++;
             }
             
@@ -301,17 +314,35 @@ void cbin(struct libusb_transfer* transfer) {
             listItems = [stickString componentsSeparatedByString:@"."];
             for (id value in listItems) {
                 int i = [((NSString*) value) intValue];
-                if(count==0) stick_deadzone[0] = i;  if(count==1) stick_deadzone[1] = i;
-                if(count==2) stick_deadzone[2] = i;  if(count==3) stick_deadzone[3] = i;
-                if(count==4) c_stick_deadzone[0] = i;  if(count==5) c_stick_deadzone[1] = i;
-                if(count==6) c_stick_deadzone[2] = i;  if(count==7) c_stick_deadzone[3] = i;
-                if(count==8) l_and_r_deadzone[0] = i;  if(count==9) l_and_r_deadzone[1] = i;
-                if(count==10) l_and_r_deadzone[2] = i;  if(count==11) l_and_r_deadzone[3] = i;
+                if(count==0) stick_deadzone_x[0] = i;  if(count==1) stick_deadzone_x[1] = i;
+                if(count==2) stick_deadzone_x[2] = i;  if(count==3) stick_deadzone_x[3] = i;
+                if(count==4) stick_deadzone_y[0] = i;  if(count==5) stick_deadzone_y[1] = i;
+                if(count==6) stick_deadzone_y[2] = i;  if(count==7) stick_deadzone_y[3] = i;
+                
+                if(count==8) c_stick_deadzone_x[0] = i;  if(count==9) c_stick_deadzone_x[1] = i;
+                if(count==10) c_stick_deadzone_x[2] = i;  if(count==11) c_stick_deadzone_x[3] = i;
+                if(count==12) c_stick_deadzone_y[0] = i;  if(count==13) c_stick_deadzone_y[1] = i;
+                if(count==14) c_stick_deadzone_y[2] = i;  if(count==15) c_stick_deadzone_y[3] = i;
+
+                if(count==16) l_deadzone[0] = i;  if(count==17) l_deadzone[1] = i;
+                if(count==18) l_deadzone[2] = i;  if(count==19) l_deadzone[3] = i;
+                if(count==20) r_deadzone[0] = i;  if(count==21) r_deadzone[1] = i;
+                if(count==22) r_deadzone[2] = i;  if(count==23) r_deadzone[3] = i;
+                
+                if(count==24) disableDeadzones[0] = i;  if(count==25) disableDeadzones[1] = i;
+                if(count==26) disableDeadzones[2] = i;  if(count==27) disableDeadzones[3] = i;
+                if(count==28) disable_l_analog[0] = i;  if(count==29) disable_l_analog[1] = i;
+                if(count==30) disable_l_analog[2] = i;  if(count==31) disable_l_analog[3] = i;
+                if(count==32) disable_r_analog[0] = i;  if(count==33) disable_r_analog[1] = i;
+                if(count==34) disable_r_analog[2] = i;  if(count==35) disable_r_analog[3] = i;
+                if(count==36) disableSticks[0] = i;  if(count==37) disableSticks[1] = i;
+                if(count==38) disableSticks[2] = i;  if(count==39) disableSticks[3] = i;
                 count++;
             }
         } else {
             [((ViewController *) [[NSApplication sharedApplication] mainWindow].contentViewController).functions addStringtoLog:@"  No controller calibrations found, using defaults."];
             [self loadDefaultCalibrations];
+            [self saveControllerCalibrations];
         }
     }
 }
@@ -321,34 +352,37 @@ void cbin(struct libusb_transfer* transfer) {
     NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
     
     if (standardUserDefaults) {
-        NSString *maxx = [NSString stringWithFormat:@"%i.%i.%i.%i", stick_max_x[0], stick_max_x[1], stick_max_x[2], stick_max_x[3]];
-        NSString *middlex = [NSString stringWithFormat:@"%i.%i.%i.%i", stick_middle_x[0], stick_middle_x[1], stick_middle_x[2], stick_middle_x[3]];
-        NSString *maxy = [NSString stringWithFormat:@"%i.%i.%i.%i", stick_max_y[0], stick_max_y[1], stick_max_y[2], stick_max_y[3]];
-        NSString *middley = [NSString stringWithFormat:@"%i.%i.%i.%i", stick_middle_y[0], stick_middle_y[1], stick_middle_y[2], stick_middle_y[3]];
-        NSString *values = [NSString stringWithFormat:@"%@.%@.%@.%@", maxx, middlex, maxy, middley];
-        [standardUserDefaults setObject:values forKey:@"stick"];
+        NSString *values1 = [NSString stringWithFormat:@"%i.%i.%i.%i", stick_max_x[0], stick_max_x[1], stick_max_x[2], stick_max_x[3]];
+        NSString *values2 = [NSString stringWithFormat:@"%i.%i.%i.%i", stick_middle_x[0], stick_middle_x[1], stick_middle_x[2], stick_middle_x[3]];
+        NSString *values3 = [NSString stringWithFormat:@"%i.%i.%i.%i", stick_max_y[0], stick_max_y[1], stick_max_y[2], stick_max_y[3]];
+        NSString *values4 = [NSString stringWithFormat:@"%i.%i.%i.%i", stick_middle_y[0], stick_middle_y[1], stick_middle_y[2], stick_middle_y[3]];
+        NSString *valuescombined = [NSString stringWithFormat:@"%@.%@.%@.%@", values1, values2, values3, values4];
+        [standardUserDefaults setObject:valuescombined forKey:@"stick"];
         
-        maxx = [NSString stringWithFormat:@"%i.%i.%i.%i", c_stick_max_x[0], c_stick_max_x[1], c_stick_max_x[2], c_stick_max_x[3]];
-        middlex = [NSString stringWithFormat:@"%i.%i.%i.%i", c_stick_middle_x[0], c_stick_middle_x[1], c_stick_middle_x[2], c_stick_middle_x[3]];
-        maxy = [NSString stringWithFormat:@"%i.%i.%i.%i", c_stick_max_y[0], c_stick_max_y[1], c_stick_max_y[2], c_stick_max_y[3]];
-        middley = [NSString stringWithFormat:@"%i.%i.%i.%i", c_stick_middle_y[0], c_stick_middle_y[1], c_stick_middle_y[2], c_stick_middle_y[3]];
-        values = [NSString stringWithFormat:@"%@.%@.%@.%@", maxx, middlex, maxy, middley];
-        [standardUserDefaults setObject:values forKey:@"c_stick"];
+        values1 = [NSString stringWithFormat:@"%i.%i.%i.%i", c_stick_max_x[0], c_stick_max_x[1], c_stick_max_x[2], c_stick_max_x[3]];
+        values2 = [NSString stringWithFormat:@"%i.%i.%i.%i", c_stick_middle_x[0], c_stick_middle_x[1], c_stick_middle_x[2], c_stick_middle_x[3]];
+        values3 = [NSString stringWithFormat:@"%i.%i.%i.%i", c_stick_max_y[0], c_stick_max_y[1], c_stick_max_y[2], c_stick_max_y[3]];
+        values3 = [NSString stringWithFormat:@"%i.%i.%i.%i", c_stick_middle_y[0], c_stick_middle_y[1], c_stick_middle_y[2], c_stick_middle_y[3]];
+        valuescombined = [NSString stringWithFormat:@"%@.%@.%@.%@", values1, values2, values3, values4];
+        [standardUserDefaults setObject:valuescombined forKey:@"c_stick"];
         
-        maxx = [NSString stringWithFormat:@"%i.%i.%i.%i", r_max[0], r_max[1], r_max[2], r_max[3]];
-        middlex = [NSString stringWithFormat:@"%i.%i.%i.%i", r_middle[0], r_middle[1], r_middle[2], r_middle[3]];
-        maxy = [NSString stringWithFormat:@"%i.%i.%i.%i", l_max[0], l_max[1], l_max[2], l_max[3]];
-        middley = [NSString stringWithFormat:@"%i.%i.%i.%i", l_middle[0], l_middle[1], l_middle[2], l_middle[3]];
-        values = [NSString stringWithFormat:@"%@.%@.%@.%@", maxx, middlex, maxy, middley];
-        [standardUserDefaults setObject:values forKey:@"l_and_r"];
+        values1 = [NSString stringWithFormat:@"%i.%i.%i.%i", r_max[0], r_max[1], r_max[2], r_max[3]];
+        values2 = [NSString stringWithFormat:@"%i.%i.%i.%i", r_middle[0], r_middle[1], r_middle[2], r_middle[3]];
+        values3 = [NSString stringWithFormat:@"%i.%i.%i.%i", l_max[0], l_max[1], l_max[2], l_max[3]];
+        values4 = [NSString stringWithFormat:@"%i.%i.%i.%i", l_middle[0], l_middle[1], l_middle[2], l_middle[3]];
+        valuescombined = [NSString stringWithFormat:@"%@.%@.%@.%@", values1, values2, values3, values4];
+        [standardUserDefaults setObject:valuescombined forKey:@"l_and_r"];
         
-        maxx = [NSString stringWithFormat:@"%i.%i.%i.%i", stick_deadzone[0], stick_deadzone[1], stick_deadzone[2], stick_deadzone[3]];
-        middlex = [NSString stringWithFormat:@"%i.%i.%i.%i", c_stick_deadzone[0], c_stick_deadzone[1], c_stick_deadzone[2], c_stick_deadzone[3]];
-        maxy = [NSString stringWithFormat:@"%i.%i.%i.%i", l_and_r_deadzone[0], l_and_r_deadzone[1], l_and_r_deadzone[2], l_and_r_deadzone[3]];
-        values = [NSString stringWithFormat:@"%@.%@.%@", maxx, middlex, maxy];
-        [standardUserDefaults setObject:values forKey:@"deadzones"];
+        values1 = [NSString stringWithFormat:@"%i.%i.%i.%i.%i.%i.%i.%i", stick_deadzone_x[0], stick_deadzone_x[1], stick_deadzone_x[2], stick_deadzone_x[3],
+                stick_deadzone_y[0], stick_deadzone_y[1], stick_deadzone_y[2], stick_deadzone_y[3]];
+        values2 = [NSString stringWithFormat:@"%i.%i.%i.%i.%i.%i.%i.%i", c_stick_deadzone_x[0], c_stick_deadzone_x[1], c_stick_deadzone_x[2], c_stick_deadzone_x[3], c_stick_deadzone_y[0], c_stick_deadzone_y[1], c_stick_deadzone_y[2], c_stick_deadzone_y[3]];
+        values3 = [NSString stringWithFormat:@"%i.%i.%i.%i.%i.%i.%i.%i", l_deadzone[0], l_deadzone[1], l_deadzone[2], l_deadzone[3], r_deadzone[0], r_deadzone[1], r_deadzone[2], r_deadzone[3]];
+        values3 = [NSString stringWithFormat:@"%i.%i.%i.%i.%i.%i.%i.%i.%i.%i.%i.%i.%i.%i.%i.%i", disableDeadzones[0], disableDeadzones[1], disableDeadzones[2], disableDeadzones[3], disable_l_analog[0], disable_l_analog[1], disable_l_analog[2], disable_l_analog[3], disable_r_analog[0], disable_r_analog[1], disable_r_analog[2], disable_r_analog[3], disableSticks[0], disableSticks[1], disableSticks[2], disableSticks[3]];
+        valuescombined = [NSString stringWithFormat:@"%@.%@.%@.%@", values1, values2, values3, values4];
+        [standardUserDefaults setObject:valuescombined forKey:@"deadzones"];
         
         [standardUserDefaults synchronize];
+        printf("test 1");
     }
 }
 
@@ -364,15 +398,23 @@ void cbin(struct libusb_transfer* transfer) {
         l_max[i] = 200; l_middle[i] = 23;
         r_max[i] = 212; r_middle[i] = 22;
         
-        stick_deadzone[i] = 5;
-        c_stick_deadzone[i] = 30;
-        l_and_r_deadzone[i] = 5;
+        stick_deadzone_x[i] = 5;
+        stick_deadzone_y[i] = 5;
+        c_stick_deadzone_x[i] = 5;
+        c_stick_deadzone_y[i] = 5;
+        l_deadzone[i] = 5;
+        r_deadzone[i] = 5;
+        
+        disable_l_analog[i] = FALSE;
+        disable_r_analog[i] = FALSE;
+        disableDeadzones[i] = FALSE;
+        disableSticks[i] = FALSE;
     }
-    
-    [self saveControllerCalibrations];
 }
 
+
 - (void) restoreDefaultCalibrations {
+    /* reset defaults */
     NSUserDefaults * defs = [NSUserDefaults standardUserDefaults];
     NSDictionary * dict = [defs dictionaryRepresentation];
     for (id key in dict) {
@@ -386,9 +428,65 @@ void cbin(struct libusb_transfer* transfer) {
 
 
 - (void) fillOptionsView: (OptionsViewController *) view {
-    //int port = view.currentPort;
+    int p = view.currentPort;
+    NSLog(@"%d", stick_middle_x[p]);
+    view.stickXMiddle.stringValue = [NSString stringWithFormat: @"%d", stick_middle_x[p]];
+    view.stickXHigh.stringValue = [NSString stringWithFormat: @"%d", stick_max_x[p]];
+    view.stickYMiddle.stringValue = [NSString stringWithFormat: @"%d", stick_middle_y[p]];
+    view.stickYHigh.stringValue = [NSString stringWithFormat: @"%d", stick_max_y[p]];
     
+    view.cstickXMiddle.stringValue = [NSString stringWithFormat: @"%d", c_stick_middle_x[p]];
+    view.cstickXHigh.stringValue = [NSString stringWithFormat: @"%d", c_stick_max_x[p]];
+    view.cstickYMiddle.stringValue = [NSString stringWithFormat: @"%d", c_stick_middle_y[p]];
+    view.cstickYHigh.stringValue = [NSString stringWithFormat: @"%d", c_stick_max_y[p]];
     
+    view.l_Middle.stringValue = [NSString stringWithFormat: @"%d", l_middle[p]];
+    view.l_High.stringValue = [NSString stringWithFormat: @"%d", l_max[p]];
+    view.r_Middle.stringValue = [NSString stringWithFormat: @"%d", r_middle[p]];
+    view.r_High.stringValue = [NSString stringWithFormat: @"%d", r_max[p]];
+    
+    view.deadzoneX.stringValue = [NSString stringWithFormat: @"%d", stick_deadzone_x[p]];
+    view.deadzoneY.stringValue = [NSString stringWithFormat: @"%d", stick_deadzone_y[p]];
+    view.cdeadzoneX.stringValue = [NSString stringWithFormat: @"%d", c_stick_deadzone_x[p]];
+    view.cdeadzoneY.stringValue = [NSString stringWithFormat: @"%d", c_stick_deadzone_y[p]];
+    view.deadzoneL.stringValue = [NSString stringWithFormat: @"%d", l_deadzone[p]];
+    view.deadzoneR.stringValue = [NSString stringWithFormat: @"%d", r_deadzone[p]];
+    
+    view.disableLeftAnalog.state = disable_l_analog[p];
+    view.disableRightAnalog.state = disable_r_analog[p];
+    view.disableDeadzones.state = disableDeadzones[p];
+    view.disableTriggers.state = disableSticks[p];
+}
+
+
+- (void) loadFromOptionsView: (OptionsViewController *) view {
+    int p = view.currentPort;
+    stick_middle_x[p] = view.stickXMiddle.intValue;
+    stick_max_x[p] = view.stickXHigh.intValue;
+    stick_middle_y[p] = view.stickYMiddle.intValue;
+    stick_max_y[p] = view.stickYHigh.intValue;
+    
+    c_stick_middle_x[p] = view.cstickXMiddle.intValue;
+    c_stick_max_x[p] = view.cstickXHigh.intValue;
+    c_stick_middle_y[p] = view.cstickYMiddle.intValue;
+    c_stick_max_y[p] = view.cstickYHigh.intValue;
+    
+    l_middle[p] = view.l_Middle.intValue;
+    l_max[p] = view.l_High.intValue;
+    r_middle[p] = view.r_Middle.intValue;
+    r_max[p] = view.r_High.intValue;
+    
+    stick_deadzone_x[p] = view.deadzoneX.intValue;
+    stick_deadzone_y[p] = view.deadzoneY.intValue;
+    c_stick_deadzone_x[p] = view.cdeadzoneX.intValue;
+    c_stick_deadzone_y[p] = view.cdeadzoneY.intValue;
+    l_deadzone[p] = view.deadzoneL.intValue;
+    r_deadzone[p] = view.deadzoneR.intValue;
+    
+    disable_l_analog[p] = view.disableLeftAnalog.state;
+    disable_r_analog[p] = view.disableRightAnalog.state;
+    disableDeadzones[p] = view.disableDeadzones.state;
+    disableSticks[p] = view.disableTriggers.state;
 }
 
 @end

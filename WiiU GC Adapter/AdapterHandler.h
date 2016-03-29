@@ -38,6 +38,7 @@
 - (bool) isControllerInserted: (int) i;
 
 - (void) fillOptionsView: (OptionsViewController *) view;
+- (void) loadFromOptionsView: (OptionsViewController *) view;
 
 - (void) loadControllerCalibrations;
 - (void) saveControllerCalibrations;
