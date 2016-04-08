@@ -14,11 +14,15 @@
 @implementation ViewController
 @synthesize functions;
 @synthesize advancedSettings;
+@synthesize largeTextView;
+
 
 - (void) viewDidLoad {
     [super viewDidLoad];
     functions = [[Functions alloc] init];
+    [functions setMainViewController:self];
 }
+
 
 - (void) setRepresentedObject:(id) representedObject {
     [super setRepresentedObject:representedObject];
@@ -38,19 +42,18 @@
     [functions stopDriver];
 }
 
+
 - (IBAction) clearLog:(NSButton *) sender {
     [functions setLogString: @""];
-    [_largeTextView setString: @""];
+    [largeTextView setString: @""];
     NSLog(@"Log: *Log cleared*");
 }
 
 
 - (IBAction) openPortSettings:(NSButton *) sender {
     functions.advancedSettings = !advancedSettings.state;
-
     functions.currentPortSettings = (int) (sender.tag - 1);
     [self performSegueWithIdentifier:@"optionsSegue" sender:self];
 }
-
 
 @end

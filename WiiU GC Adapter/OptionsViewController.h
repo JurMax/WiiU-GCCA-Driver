@@ -20,7 +20,13 @@
 - (IBAction)disclosureButton:(NSButton *)sender;
 - (IBAction)checkBoxOptions:(NSButton *)sender;
 
+- (void) setWindowSize:(bool) animation;
+- (void) setInstructionLabel;
+
 @property (weak) IBOutlet NSTextField *instructionsTextField;
+@property (weak) IBOutlet NSButton *calibrateControllerButton;
+@property (weak) IBOutlet NSButton *restoreDefaultsButton;
+@property (weak) IBOutlet NSButton *nextButton;
 
 @property (weak) IBOutlet NSButton *disableLeftAnalog;
 @property (weak) IBOutlet NSButton *disableRightAnalog;

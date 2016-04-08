@@ -14,7 +14,11 @@
 @synthesize isDriverRunning;
 @synthesize driverRunningTime;
 @synthesize logString;
+
 @synthesize gccManager;
+@synthesize mainViewController;
+@synthesize optionsViewController;
+
 @synthesize currentPortSettings;
 @synthesize advancedSettings;
 -(id)init {
@@ -43,8 +47,7 @@ bool isDriverClosed = TRUE;
     }
     logString = [NSString stringWithFormat: @"%@%@", currentString, string];
     
-    ViewController *viewController2 = (ViewController*) [[NSApplication sharedApplication] mainWindow].contentViewController;
-    [viewController2.largeTextView setString:logString];
+    [[self mainViewController].largeTextView setString:logString];
 }
 
 
@@ -131,7 +134,7 @@ bool isDriverClosed = TRUE;
         isInitialized = false;
         [gccManager reset];
     }
-    int i = [gccManager setup];
+    int i = [gccManager setup: self];
     
     __block bool messagedone = FALSE;
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -186,16 +189,17 @@ bool isDriverClosed = TRUE;
     currentPortSettings = tag - 1;
 }
 
+
 - (void) validateCalibrateButtons {
-    [self getViewController].calibrateButton1.enabled = [gccManager isControllerInserted:0];
-    [self getViewController].calibrateButton2.enabled = [gccManager isControllerInserted:1];
-    [self getViewController].calibrateButton3.enabled = [gccManager isControllerInserted:2];
-    [self getViewController].calibrateButton4.enabled = [gccManager isControllerInserted:3];
+    [self mainViewController].calibrateButton1.enabled = [gccManager isControllerInserted:0];
+    [self mainViewController].calibrateButton2.enabled = [gccManager isControllerInserted:1];
+    [self mainViewController].calibrateButton3.enabled = [gccManager isControllerInserted:2];
+    [self mainViewController].calibrateButton4.enabled = [gccManager isControllerInserted:3];
 }
 
 
 - (ViewController*) getViewController {
-    return (ViewController*) [[NSApplication sharedApplication] mainWindow].contentViewController;
+    return mainViewController;
 }
 
 @end

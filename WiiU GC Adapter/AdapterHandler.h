@@ -31,7 +31,7 @@
 @property (nonatomic) libusb_context *ctx;
 @property (nonatomic) int r;
 
-- (int) setup;
+- (int) setup: (Functions * ) fnctns;
 - (void) reset;
 - (void) removeControllers;
 - (void) update;
@@ -44,7 +44,7 @@
 - (void) saveControllerCalibrations;
 - (void) loadDefaultCalibrations;
 - (void) restoreDefaultCalibrations;
-
+- (void) setCalibration: (int) port : (int) i;
 @end
 
 

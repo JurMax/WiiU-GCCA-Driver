@@ -13,6 +13,7 @@
 
 @class GccManager;
 @class ViewController;
+@class OptionsViewController;
 
 @interface Functions : NSObject
 
@@ -21,6 +22,9 @@
 @property (nonatomic) long int driverRunningTime;
 @property (strong, nonatomic) NSString *logString;
 @property (nonatomic) GccManager *gccManager;
+
+@property (nonatomic) ViewController *mainViewController;
+@property (nonatomic) OptionsViewController *optionsViewController;
 
 @property (nonatomic) int currentPortSettings; /* to determine which controller is being edited in the optionsView */
 @property (nonatomic) bool advancedSettings;
