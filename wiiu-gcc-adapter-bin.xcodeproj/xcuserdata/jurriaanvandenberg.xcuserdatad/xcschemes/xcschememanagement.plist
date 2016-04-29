@@ -7,16 +7,11 @@
 		<key>WiiU GC Adapter.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>1</integer>
+			<integer>0</integer>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>30B5281A1A7A564400F565FA</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>E4DFE11F1C78E8E000C45228</key>
 		<dict>
 			<key>primary</key>

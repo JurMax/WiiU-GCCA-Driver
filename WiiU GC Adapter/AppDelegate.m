@@ -12,23 +12,25 @@
 
 
 @interface AppDelegate ()
+@property (weak) IBOutlet NSWindow *mainWindow;
 @property (strong, nonatomic) NSStatusItem *statusItem;
 @property (assign, nonatomic) BOOL darkModeOn;
 @property (weak) IBOutlet NSMenu *StatusBarMenu;
-@property (weak) IBOutlet NSWindow *mainWindow;
 @end
 
 
 @implementation AppDelegate
 @synthesize mainWindow;
+@synthesize statusItem;
+@synthesize StatusBarMenu;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     // nsrover.wordpress.com/2014/10/10/creating-a-os-x-menubar-only-app/
     
     self.statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength];
-    _statusItem.image = [NSImage imageNamed:@"switchIcon.png"];
-    [_statusItem.image setTemplate:YES];
-    [_statusItem setMenu: _StatusBarMenu];
+    statusItem.image = [NSImage imageNamed:@"menu_icon.png"];
+    [statusItem.image setTemplate:YES];
+    [statusItem setMenu: StatusBarMenu];
     
     dispatch_async(dispatch_get_global_queue (DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         bool isMainWindowLoaded = false;
@@ -38,8 +40,7 @@
                 dispatch_async(dispatch_get_main_queue(), ^{
                     mainWindow = [[NSApplication sharedApplication] mainWindow];
                     [mainWindow setReleasedWhenClosed:NO];
-                    //[mainWindow setLevel:NSModalPanelWindowLevel];
-                    //[mainWindow setCollectionBehavior: NSWindowCollectionBehaviorCanJoinAllSpaces];
+                    [mainWindow setMenu: StatusBarMenu];
                     ViewController *viewController = (ViewController *) mainWindow.contentViewController;
                     [viewController.functions validateCalibrateButtons];
                 });
@@ -82,15 +83,18 @@
     [viewController.functions initializeAdapterOnly];
 }
 
+
 - (IBAction)startDriver:(id)sender {
     ViewController *viewController = (ViewController *) mainWindow.contentViewController;
     [viewController.functions startDriver];
 }
 
+
 - (IBAction)stopDriver:(id)sender {
     ViewController *viewController = (ViewController *) mainWindow.contentViewController;
     [viewController.functions stopDriver];
 }
+
 
 - (IBAction)quitApplication:(id)sender {
     ViewController *viewController = (ViewController *) mainWindow.contentViewController;
@@ -100,6 +104,7 @@
     [viewController.functions.gccManager reset];
     exit(0);
 }
+
 
 - (IBAction)openOrCloseWindow:(NSMenuItem *)sender {
     if (mainWindow.isVisible) {
@@ -111,18 +116,17 @@
 }
 
 
-- (IBAction)calibratePort1:(id)sender {
-    /* debug */
-    float width = mainWindow.frame.size.width;
-    float height = mainWindow.frame.size.height;
-    printf("w: %f,  h: %f", width, height);
-    [((ViewController *) mainWindow.contentViewController).functions.gccManager restoreDefaultCalibrations];
-}
-
 - (IBAction)calibrateButtons:(NSMenuItem *)sender {
+    if (!mainWindow.isVisible) {
+        [mainWindow makeKeyAndOrderFront:nil];
+        [NSApp activateIgnoringOtherApps:YES];
+    }
+    
     ViewController *viewController = (ViewController *) mainWindow.contentViewController;
-    [viewController.functions calibrateControllers: (int) sender.tag];
+    
+    viewController.functions.advancedSettings = !viewController.advancedSettings.state;
+    viewController.functions.currentPortSettings = (int) (sender.tag - 1);
+    [viewController performSegueWithIdentifier:@"optionsSegue" sender:self];
 }
-
 
 @end

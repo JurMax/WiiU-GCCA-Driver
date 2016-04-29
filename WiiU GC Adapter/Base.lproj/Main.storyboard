@@ -217,22 +217,26 @@ CA
                             <modifierMask key="keyEquivalentModifierMask"/>
                             <menu key="submenu" title="Calibrate Controllers" id="QCE-6M-1Rw">
                                 <items>
-                                    <menuItem title="Port 1" tag="1" keyEquivalent="1" id="hM9-rk-pHt">
+                                    <menuItem title="Port 1" tag="1" id="hM9-rk-pHt">
+                                        <modifierMask key="keyEquivalentModifierMask"/>
                                         <connections>
                                             <action selector="calibrateButtons:" target="Voe-Tx-rLC" id="5UI-vA-05j"/>
                                         </connections>
                                     </menuItem>
-                                    <menuItem title="Port 2" tag="2" keyEquivalent="2" id="DEP-Tl-2ZV">
+                                    <menuItem title="Port 2" tag="2" id="DEP-Tl-2ZV">
+                                        <modifierMask key="keyEquivalentModifierMask"/>
                                         <connections>
                                             <action selector="calibrateButtons:" target="Voe-Tx-rLC" id="fnv-AY-nZd"/>
                                         </connections>
                                     </menuItem>
-                                    <menuItem title="Port 3" tag="3" keyEquivalent="3" id="PIk-Fs-vRD">
+                                    <menuItem title="Port 3" tag="3" id="PIk-Fs-vRD">
+                                        <modifierMask key="keyEquivalentModifierMask"/>
                                         <connections>
                                             <action selector="calibrateButtons:" target="Voe-Tx-rLC" id="dxu-Hi-yzs"/>
                                         </connections>
                                     </menuItem>
-                                    <menuItem title="Port 4" tag="2" keyEquivalent="4" id="1WB-u2-b73">
+                                    <menuItem title="Port 4" tag="4" id="1WB-u2-b73">
+                                        <modifierMask key="keyEquivalentModifierMask"/>
                                         <connections>
                                             <action selector="calibrateButtons:" target="Voe-Tx-rLC" id="dPK-24-NMn"/>
                                         </connections>
@@ -986,7 +990,7 @@ CA
                                 <rect key="frame" x="390" y="145" width="37" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <animations/>
-                                <buttonCell key="cell" type="disclosure" bezelStyle="roundedDisclosure" image="1C785882-0C7B-4B4A-BC2A-7433C401D610" imagePosition="only" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="JGF-FK-bO8">
+                                <buttonCell key="cell" type="disclosure" bezelStyle="roundedDisclosure" image="4306DC61-AC80-4509-AE9F-81DC529F2B60" imagePosition="only" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="JGF-FK-bO8">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
@@ -1034,7 +1038,7 @@ CA
         </scene>
     </scenes>
     <resources>
-        <image name="1C785882-0C7B-4B4A-BC2A-7433C401D610" width="1" height="1">
+        <image name="4306DC61-AC80-4509-AE9F-81DC529F2B60" width="1" height="1">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPT5YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQrLjE3OlUkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw

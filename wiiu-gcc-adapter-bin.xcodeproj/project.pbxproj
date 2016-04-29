@@ -13,13 +13,13 @@
 		E41D25DA1C8CC4560084B6B9 /* WirtualJoy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E41D25CE1C8CBEE10084B6B9 /* WirtualJoy.framework */; };
 		E41D25DB1C8CC4560084B6B9 /* WirtualJoy.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E41D25CE1C8CBEE10084B6B9 /* WirtualJoy.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E428ABCD1C78F8CD00BFC732 /* AdapterHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = E428ABCC1C78F8CD00BFC732 /* AdapterHandler.m */; settings = {ASSET_TAGS = (); }; };
-		E48B7BAE1C7A05FB00A59E49 /* switchIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = E48B7BAD1C7A05FB00A59E49 /* switchIcon.png */; settings = {ASSET_TAGS = (); }; };
+		E4765B0E1CD40336000F77A1 /* app.icns in Resources */ = {isa = PBXBuildFile; fileRef = E4765B0D1CD40336000F77A1 /* app.icns */; settings = {ASSET_TAGS = (); }; };
+		E4765B111CD403B1000F77A1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E4DFE12D1C78E8E100C45228 /* Main.storyboard */; };
+		E4765B1F1CD41523000F77A1 /* menu_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = E4765B1E1CD41523000F77A1 /* menu_icon.png */; settings = {ASSET_TAGS = (); }; };
 		E48B7BB21C7A075200A59E49 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E4DFE1231C78E8E100C45228 /* AppDelegate.m */; };
 		E48B7BB41C7A0B3700A59E49 /* Functions.m in Sources */ = {isa = PBXBuildFile; fileRef = E48B7BB31C7A0B3700A59E49 /* Functions.m */; settings = {ASSET_TAGS = (); }; };
 		E4DD9D161C943BA200A0479E /* OptionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E4DD9D151C943BA200A0479E /* OptionsViewController.m */; settings = {ASSET_TAGS = (); }; };
 		E4DFE12A1C78E8E100C45228 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E4DFE1291C78E8E100C45228 /* ViewController.m */; };
-		E4DFE12C1C78E8E100C45228 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E4DFE12B1C78E8E100C45228 /* Assets.xcassets */; };
-		E4DFE12F1C78E8E100C45228 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E4DFE12D1C78E8E100C45228 /* Main.storyboard */; };
 		E4DFE16B1C78F68400C45228 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E4DFE1261C78E8E100C45228 /* main.m */; };
 /* End PBXBuildFile section */
 
@@ -45,7 +45,8 @@
 		E41D25CE1C8CBEE10084B6B9 /* WirtualJoy.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = WirtualJoy.framework; sourceTree = "<group>"; };
 		E428ABCC1C78F8CD00BFC732 /* AdapterHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AdapterHandler.m; sourceTree = "<group>"; };
 		E428ABD11C78FAB100BFC732 /* AdapterHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdapterHandler.h; sourceTree = "<group>"; };
-		E48B7BAD1C7A05FB00A59E49 /* switchIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = switchIcon.png; sourceTree = "<group>"; };
+		E4765B0D1CD40336000F77A1 /* app.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = app.icns; sourceTree = "<group>"; };
+		E4765B1E1CD41523000F77A1 /* menu_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menu_icon.png; sourceTree = "<group>"; };
 		E48B7BB31C7A0B3700A59E49 /* Functions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Functions.m; sourceTree = "<group>"; };
 		E48B7BB51C7A0B4800A59E49 /* Functions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Functions.h; sourceTree = "<group>"; };
 		E4DD9D111C933E3700A0479E /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -95,9 +96,20 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		E4765B0F1CD40358000F77A1 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				E4DFE12B1C78E8E100C45228 /* Assets.xcassets */,
+				E4765B0D1CD40336000F77A1 /* app.icns */,
+				E4765B1E1CD41523000F77A1 /* menu_icon.png */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
 		E4DFE1211C78E8E000C45228 /* WiiU GC Adapter */ = {
 			isa = PBXGroup;
 			children = (
+				E4765B0F1CD40358000F77A1 /* Resources */,
 				E4DFE1641C78F53200C45228 /* Window Files */,
 				E4DFE1631C78F52000C45228 /* Adapter Files */,
 				E4DFE1251C78E8E100C45228 /* Supporting Files */,
@@ -129,8 +141,6 @@
 		E4DFE1641C78F53200C45228 /* Window Files */ = {
 			isa = PBXGroup;
 			children = (
-				E4DFE12B1C78E8E100C45228 /* Assets.xcassets */,
-				E48B7BAD1C7A05FB00A59E49 /* switchIcon.png */,
 				E4DFE1301C78E8E100C45228 /* Info.plist */,
 				E4DFE12D1C78E8E100C45228 /* Main.storyboard */,
 				E4DFE1221C78E8E000C45228 /* AppDelegate.h */,
@@ -170,6 +180,9 @@
 		30B528131A7A564400F565FA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				KnownAssetTags = (
+					resources,
+				);
 				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "Mitch Dzugan";
 				TargetAttributes = {
@@ -201,9 +214,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E4DFE12C1C78E8E100C45228 /* Assets.xcassets in Resources */,
-				E48B7BAE1C7A05FB00A59E49 /* switchIcon.png in Resources */,
-				E4DFE12F1C78E8E100C45228 /* Main.storyboard in Resources */,
+				E4765B111CD403B1000F77A1 /* Main.storyboard in Resources */,
+				E4765B0E1CD40336000F77A1 /* app.icns in Resources */,
+				E4765B1F1CD41523000F77A1 /* menu_icon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

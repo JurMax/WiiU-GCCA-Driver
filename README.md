@@ -1,6 +1,7 @@
-TODO:
-ui calibrations
-Deadzones
-Way to disable l and r analog
-Icon
-Maybe a visual representation of the controllers analog sticks
+#Wii U Gamecube Controller Adapter Driver for OS X
+
+An easy-to-use open source driver and calibration app for the WiiU GC adapter. USB handeling based on this fork: https://github.com/area/osx-wiiu-gcc-adapter (not longer in development).
+
+
+#How to use
+Download the app...
