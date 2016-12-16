@@ -4,4 +4,4 @@ An easy-to-use open source driver and calibration app for the WiiU GC adapter. U
 
 
 #How to use
-Download the app and run it. Open the window and hit start when the Wii U Gamecube Adapter is connected to your Mac (only the black one is needed). 
+Download the app and run it. Open the window and hit start when the Wii U Gamecube Adapter is connected to your Mac (only the black usb cable is needed). 
