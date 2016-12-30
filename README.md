@@ -4,14 +4,6 @@ An easy-to-use open source driver and calibration app for the WiiU GC adapter. U
 
 
 #How to use
-Download the app and run it. Open the window and hit start when the Wii U Gamecube Adapter is connected to your Mac (only the black usb cable is needed). 
-
-
-TODO:
-libusb: error [darwin_claim_interface] USBInterfaceOpen: another process has device opened for exclusive access
-libusb: warning [ep_to_pipeRef] no pipeRef found with endpoint address 0x02.
-libusb: error [submit_bulk_transfer] endpoint not found on any open interface
-libusb: warning [ep_to_pipeRef] no pipeRef found with endpoint address 0x81.
-libusb: error [submit_bulk_transfer] endpoint not found on any open interface
-2016-12-30 23:29:01.321 WiiU GCC Adapter[1337:208719] Log:   Adapter initialised. 
-2016-12-30 23:29:01.323 WiiU GCC Adapter[1337:208719] Log: - Driver succesfully started. -
+1. Install this signed kext: https://wiki.dolphin-emu.org/index.php?title=How_to_use_the_Official_GameCube_Controller_Adapter_for_Wii_U_in_Dolphin#Easy_Install
+2. Download the app and run it. 
+3. Open the window and hit start when the Wii U Gamecube Adapter is connected to your Mac (only the black usb cable is needed). 
